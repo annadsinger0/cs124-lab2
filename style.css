@@ -1,0 +1,74 @@
+
+:root {
+    --dbrown: #50291b;
+    --lbrown: #895f46;
+    --dgreen: #6e6e5c;
+    --lgreen: #868370;
+    --tan: #e7c09f;
+}
+
+@font-face {
+    font-family: "HarvestBarn";
+    src: url("fonts/HarvestBarn.ttf");
+}
+@font-face {
+    font-family: "ShadowsIntoLight";
+    src: url("fonts/ShadowsIntoLight.ttf");
+}
+
+body {
+
+    background-color: var(--tan);
+}
+
+body h1 {
+    text-align: center;
+    color: var(--dbrown);
+    font-family: "HarvestBarn", sans-serif;
+    font-size: 80px;
+    text-transform: uppercase;
+    margin: 10px;
+    border-bottom: 2px solid var(--dbrown);
+}
+
+#todolist {
+    font-family: "ShadowsIntoLight", sans-serif;
+    font-size: 25px;
+    margin: 10px;
+}
+
+#todolist li {
+    border: 1px solid var(--lgreen);
+    list-style: none;
+}
+
+#todolist p {
+    margin: 0px;
+    display: inline;
+}
+
+.checkbox {
+    height: 20px;
+    width: 20px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+#new-task {
+    bottom: 0px;
+    border: 1px solid red;
+    position: absolute;
+    text-align: center;
+
+    /*Together these center the add task bar*/
+    transform: translateX(-50%);
+    left: 50%;
+
+    /*This forces the label to be inline with the input box*/
+    white-space: nowrap;
+}
+
+#new-task-input {
+    width: 200px;
+}
