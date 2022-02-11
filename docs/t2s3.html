@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToDo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>ToDo</h1>
+
+<div id="tools">
+    <label for="completed-item-show" id="completed-item-show-label">
+        <span>Show completed items</span>
+        <img src="assets/checkboxFull.png" class="checkbox" id="completed-item-show-check"/>
+    </label>
+    <input type="checkbox" id="completed-item-show">
+    <img src="assets/trashcan.png" id="trash"/>
+</div>
+
+
+<ul id="todolist">
+    <li>
+        <img src="assets/checkboxEmpty.png" class="checkbox"/>
+        <p>Buy new John Grisham book</p>
+    </li>
+
+    <li>
+        <img src="assets/checkboxEmpty.png" class="checkbox"/>
+        <p>Eat Lunch</p>
+    </li>
+<!--    <li>-->
+<!--        <img src="assets/checkboxFull.png" class="checkbox"/>-->
+<!--        <p>another lowercase task</p>-->
+<!--&lt;!&ndash;    </li>&ndash;&gt;-->
+<!--    <li>-->
+<!--        <img src="assets/checkboxEmpty.png" class="checkbox"/>-->
+<!--        <p>SOME REALLY IMPORTANT UPPERCASE TASK</p>-->
+<!--    </li>-->
+</ul>
+
+<div id="new-task">
+    <!--    <label for="new-task-input">Add task:</label>-->
+    <input type="button" value="+" id="new-task-button">
+    <input type="text" id="new-task-input" placeholder="Add task">
+
+</div>
+
+
+</body>
+</html>
