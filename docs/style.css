@@ -17,11 +17,11 @@
 
 @font-face {
     font-family: "HarvestBarn";
-    src: url("../fonts/HarvestBarn.ttf");
+    src: url("fonts/HarvestBarn.ttf");
 }
 @font-face {
     font-family: "ShadowsIntoLight";
-    src: url("../fonts/ShadowsIntoLight.ttf");
+    src: url("fonts/ShadowsIntoLight.ttf");
 }
 
 body {
