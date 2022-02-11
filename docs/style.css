@@ -84,7 +84,7 @@ body h1 {
     margin-left: 10px;
     margin-right: 10px;
     color: var(--dbrown);
-    font-family: ShadowsIntoLight sans-serif;
+    font-family: "ShadowsIntoLight", sans-serif;
 
 }
 
@@ -100,7 +100,7 @@ body h1 {
     vertical-align: middle;
     line-height: 40px;
     color: var(--dbrown);
-    font-family: ShadowsIntoLight sans-serif;
+    font-family: "ShadowsIntoLight", sans-serif;
 }
 
 #completed-item-show-label span {
@@ -158,7 +158,7 @@ body h1 {
     align-self: center;
     margin: 0 auto;
     font-size: 20px;
-    font-family: ShadowsIntoLight sans-serif;
+    font-family: "ShadowsIntoLight", sans-serif;
     color: var(--dbrown);
 
 
@@ -174,7 +174,7 @@ body h1 {
     width: 240px;
     height: 30px;
     bottom: 0px;
-    font-family: ShadowsIntoLight sans-serif;
+    font-family: "ShadowsIntoLight", sans-serif;
     font-size: 18px;
     background-color: var(--lgreen);
     color: var(--dbrown);
@@ -191,7 +191,7 @@ body h1 {
     width: 200px;
     height: 30px;
     bottom: 0px;
-    font-family: ShadowsIntoLight sans-serif;
+    font-family: "ShadowsIntoLight", sans-serif;
     font-size: 18px;
     background-color: var(--lgreen);
     color: var(--dbrown);
@@ -208,7 +208,7 @@ body h1 {
 #rename-button {
     height: 39px;
     /*width: 100%;*/
-    font-family: ShadowsIntoLight sans-serif;
+    font-family: "ShadowsIntoLight", sans-serif;
     font-size: 18px;
     background-color: var(--lgreen);
     color: var(--dbrown);
@@ -232,7 +232,7 @@ body h1 {
 #new-task-button {
     height: 100%;
     /*width: 100%;*/
-    font-family: ShadowsIntoLight sans-serif;
+    font-family: "ShadowsIntoLight", sans-serif;
     font-size: 18px;
     background-color: var(--lgreen);
     color: var(--dbrown);
