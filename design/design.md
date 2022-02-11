@@ -1,5 +1,4 @@
-
-##Design Decisions
+#Design Decisions
 
 We decided early on that we wanted to create an app that felt less tech-y and more natural. This made us think of keywords like 'natural', 'rustic', 'soft', 'hand drawn'.
 We chose a rustic forest-themed color palette:
