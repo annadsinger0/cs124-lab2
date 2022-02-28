@@ -4,8 +4,30 @@ import {Fragment} from "react";
 import checkboxEmpty from "./assets/checkboxEmpty.png";
 import checkboxFull from "./assets/checkboxFull.png";
 import trashcan from "./assets/trashcan.png";
+import Tools from "./Tools";
+import Tasks from "./Tasks";
+import AddTask from "./AddTask";
+import {useState} from "react";
+
+const initialData = [
+    {name: "TaskTaskTasTaskTask 1", id: 1, completed: false},
+    {name: "Task 2", id: 2, completed: true},
+]
 
 function App() {
+    const [list, setList] = useState(initialData);
+
+    function handleChangeList(id, changeField, value) {
+        setList(list.map(task => task.id === id ?
+            {...task, [changeField]: value} : task ));
+        // setData(data.map(p => (p.id === personId ? {...p, [field] : value} : p)));
+    }
+
+    function handleAddTask(name) {
+        setList(list.concat({name: name, id: 6, completed: false}));
+    }
+
+
   return (
       <Fragment>
       <head>
@@ -16,36 +38,11 @@ function App() {
 
   <h1>ToDo</h1>
 
-  <div id="tools">
-    <label htmlFor="completed-item-show" id="completed-item-show-label">
-      <span>Show completed items</span>
-      <img src={checkboxFull} className="checkbox" id="completed-item-show-check"/>
-    </label>
-    <input type="checkbox" id="completed-item-show"/>
-      <img src={trashcan} id="trash"/>
-  </div>
+  <Tools />
 
+    <Tasks tasks={list} onChangeField={handleChangeList}/>
 
-  <ul id="todolist">
-    <li>
-      <img src={checkboxEmpty} className="checkbox"/>
-      <p>Buy new John Grisham book</p>
-    </li>
-    <li>
-      <img src={checkboxFull} className="checkbox"/>
-      <p>another lowercase task</p>
-    </li>
-    <li>
-      <img src={checkboxEmpty} className="checkbox"/>
-      <p>SOME REALLY IMPORTANT UPPERCASE TASK</p>
-    </li>
-  </ul>
-
-  <div id="new-task">
-    <input type="button" value="+" id="new-task-button"/>
-      <input type="text" id="new-task-input" placeholder="Add task"/>
-
-  </div>
+  <AddTask onAddTask={handleAddTask}/>
 
 
   </body>

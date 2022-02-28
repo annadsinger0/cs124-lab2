@@ -45,8 +45,10 @@ body h1 {
   font-size: 18px;
   margin: 10px;
   list-style: none;
-  overflow: no-display;
+  overflow: scroll;
   padding: 0px 15px 0px 15px;
+  height: 400px;
+
 }
 
 #todolist li {
@@ -168,6 +170,13 @@ body h1 {
 
   /*This forces the label to be inline with the input box*/
   white-space: nowrap;
+}
+
+.task {
+  word-wrap: break-word;
+}
+.task p {
+  inline-size: 230px;
 }
 
 #new-task-input {
