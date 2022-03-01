@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import {Fragment} from "react";
+import {Fragment, useEffect} from "react";
 import checkboxEmpty from "./assets/checkboxEmpty.png";
 import checkboxFull from "./assets/checkboxFull.png";
 import trashcan from "./assets/trashcan.png";
@@ -8,6 +8,7 @@ import Tools from "./Tools";
 import Tasks from "./Tasks";
 import AddTask from "./AddTask";
 import {useState} from "react";
+import DeleteTasks from "./DeleteTasks";
 
 const initialData = [
     {name: "TaskTaskTasTaskTask 1", id: 1, completed: false},
@@ -15,38 +16,63 @@ const initialData = [
 ]
 
 function App() {
-    const [list, setList] = useState(initialData);
+    const [tasks, setTasks] = useState(initialData);
+    const [showCompleted, setShowCompleted] = useState(true);
+    const [nextID, setNextID] = useState(10); //TODO - fix initial state
+    const [selectedTaskIDs, setSelectedTaskIDs] = useState([]);
 
     function handleChangeList(id, changeField, value) {
-        setList(list.map(task => task.id === id ?
+        setTasks(tasks.map(task => task.id === id ?
             {...task, [changeField]: value} : task ));
-        // setData(data.map(p => (p.id === personId ? {...p, [field] : value} : p)));
     }
 
     function handleAddTask(name) {
-        setList(list.concat({name: name, id: 6, completed: false}));
+        setTasks(tasks.concat({name: name, id: nextID, completed: false}));
+        setNextID(nextID + 1);
     }
+
+    function handleToggleShowCompleted() {
+        setShowCompleted(!showCompleted);
+    }
+
+    function handleSelectTask(id) {
+        if (selectedTaskIDs.includes(id)) {
+            console.error(`Task with id ${id} is already selected.`);
+            return;
+        }
+        setSelectedTaskIDs(selectedTaskIDs.concat(id));
+    }
+
+    function handleDeselectTask(id) {
+        setSelectedTaskIDs(selectedTaskIDs.filter(t => t !== id));
+    }
+
+    function handleDeleteSelectedTasks() {
+        setTasks(tasks.filter(t => !selectedTaskIDs.includes(t.id)));
+        setSelectedTaskIDs([]);
+    }
+
+    function handleClearSelectedTasks() {
+        setSelectedTaskIDs([]);
+    }
+
+    useEffect(() => {
+        document.title = `ToDo`;
+    }, []);
 
 
   return (
-      <Fragment>
-      <head>
-        <title>ToDo</title>
-        <link rel="stylesheet" href="style.css"/>
-      </head>
-  <body>
+      <div>
+          <h1>ToDo</h1>
 
-  <h1>ToDo</h1>
-
-  <Tools />
-
-    <Tasks tasks={list} onChangeField={handleChangeList}/>
-
-  <AddTask onAddTask={handleAddTask}/>
-
-
-  </body>
-      </Fragment>);
+          <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted}/>
+          <Tasks tasks={tasks} onChangeField={handleChangeList} showCompleted={showCompleted}/>
+          {/*<AddTask onAddTask={handleAddTask}/>*/}
+          <DeleteTasks tasks={tasks} onSelectTask={handleSelectTask} onDeselectTask={handleDeselectTask}
+                       onDeleteSelectedTask={handleDeleteSelectedTasks}
+                       onClearSelectedTasks={handleClearSelectedTasks}/>
+      </div>
+  );
 }
 
 export default App;
