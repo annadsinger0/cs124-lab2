@@ -10,6 +10,7 @@ import AddTask from "./AddTask";
 import {useState} from "react";
 import DeleteTasks from "./DeleteTasks";
 import Task from "./Task";
+import EditTask from "./EditTask";
 
 const initialData = [
     {name: "1", id: 1, completed: false},
@@ -19,7 +20,7 @@ const initialData = [
     {name: "5", id: 5, completed: false},
 ]
 
-// TODO list - navigaition, edit mode, delete confirmation
+// TODO list - navigaition, delete confirmation
 
 function App() {
     const [tasks, setTasks] = useState(initialData);
@@ -28,7 +29,9 @@ function App() {
     const [selectedTaskIDs, setSelectedTaskIDs] = useState([]);
     // TODO - set appropriately once we figure out nav
     // modes: home, delete, edit
-    const [mode, setMode] = useState("edit");
+    const [mode, setMode] = useState("delete");
+
+    const [editTaskID, setEditTaskID] = useState(1);
 
     function handleChangeField(id, changeField, value) {
         setTasks(tasks.map(task => task.id === id ?
@@ -91,6 +94,10 @@ function App() {
         setSelectedTaskIDs([]);
     }
 
+    function handleDeleteID(id) {
+        setTasks(tasks.filter(t => t.id !== id));
+    }
+
     useEffect(() => {
         document.title = `ToDo`;
     }, []);
@@ -103,17 +110,22 @@ function App() {
           <h1>ToDo</h1>
 
           <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted}/>
-          {/*<Tasks tasks={tasks} onChangeField={handleChangeField} showCompleted={showCompleted}*/}
-          {/*       onToggleSelectTask={handleToggleSelectTask} mode={mode} selectedTaskIDs={selectedTaskIDs}/>*/}
+          <Tasks tasks={tasks} onChangeField={handleChangeField} showCompleted={showCompleted}
+                 onToggleSelectTask={handleToggleSelectTask} mode={mode} selectedTaskIDs={selectedTaskIDs}/>
           {/*/!*<AddTask onAddTask={handleAddTask}/>*!/*/}
-          {/*<DeleteTasks tasks={tasks} onToggleSelectTask={handleToggleSelectTask}*/}
-          {/*             onDeleteSelectedTasks={handleDeleteSelectedTasks}*/}
-          {/*             onDeleteCompletedTasks={handleDeleteCompletedTasks}*/}
-          {/*             onClearSelectedTasks={handleClearSelectedTasks}*/}
-          {/*             selectedTaskIDs={selectedTaskIDs} />*/}
-          <div  id="todolist"> <Task task={tasks[0]} onChangeField={handleChangeField} key={tasks[0].id}
-                      onToggleSelectTask={handleToggleSelectTask}
-                      mode={mode} selected={selectedTaskIDs.includes(tasks[0].id)}/> </div>
+          <DeleteTasks tasks={tasks} onToggleSelectTask={handleToggleSelectTask}
+                       onDeleteSelectedTasks={handleDeleteSelectedTasks}
+                       onDeleteCompletedTasks={handleDeleteCompletedTasks}
+                       onClearSelectedTasks={handleClearSelectedTasks}
+                       selectedTaskIDs={selectedTaskIDs} />
+
+          {/*<div  id="todolist"> <Task task={tasks.filter(t => t.id === editTaskID)[0]} onChangeField={handleChangeField} key={editTaskID.id}*/}
+          {/*            onToggleSelectTask={handleToggleSelectTask}*/}
+          {/*            mode={mode} selected={selectedTaskIDs.includes(editTaskID)}/>*/}
+          {/*</div>*/}
+
+          {/*<EditTask onChangeField={handleChangeField} task={tasks.filter(t => t.id === editTaskID)[0]} onDeleteID={handleDeleteID} />*/}
+
       </div>
   );
 }
