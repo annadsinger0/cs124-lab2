@@ -5,7 +5,8 @@ import checkboxEmpty from "./assets/checkboxEmpty.png";
 import checkboxFull from "./assets/checkboxFull.png";
 import trashcan from "./assets/trashcan.png";
 import {useState} from "react";
-import task from "./Task";
+import Task from "./Task";
+
 
 function EditTask(props) {
 
@@ -28,20 +29,26 @@ function EditTask(props) {
     }
 
     return (
-
-        <div id="delete-button-group">
-            <div>
-
-                <input type="text" id="rename-input" placeholder="Rename Task" value={taskName}
-                       onChange={e => setTaskName(e.target.value)} onKeyPress={handleKeyPress}/>
-                    <input type="button" value="Rename" id="rename-button" onClick={handleRename}  />
-
+        <>
+            <div  id="todolist"> <Task task={props.task} onChangeField={props.onChangeField}
+                    onToggleSelectTask={props.onToggleSelectTask}
+                    mode={props.mode} selected={false}/>
             </div>
+            <div id="delete-button-group">
+                <div>
+                    <input type="text" id="rename-input" placeholder="Rename Task" value={taskName}
+                           onChange={e => setTaskName(e.target.value)} onKeyPress={handleKeyPress}/>
+                        <input type="button" value="Rename" id="rename-button" onClick={handleRename}  />
 
-            <div className="delete-button" onClick={onDeleteTask}>
-                Delete Task
+                </div>
+
+                <div className="delete-button" onClick={onDeleteTask}>
+                    Delete Task
+                </div>
             </div>
-        </div>)
+        </>
+    )
+
 }
 
 export default EditTask;

@@ -11,14 +11,22 @@ function Task(props) {
         if (props.mode !== "delete") {
             props.onChangeField(props.task.id, "completed", !props.task.completed)
         }
+        e.stopPropagation();
+    }
+
+    function handleClick(e) {
+        if (props.mode === "home") {
+            props.onChangeMode("edit", props.task.id);
+        }
+        if (props.mode === "delete") {
+            props.onToggleSelectTask(props.task.id);
+        }
     }
 
     return (
 
-        <li className={`task${props.selected ? " selectedTask" : ""}`} onClick={() => props.mode === "delete" ? props.onToggleSelectTask(props.task.id) : null}>
+        <li onClick={handleClick} className={`task${props.selected ? " selectedTask" : ""}`} >
             <img src={props.task.completed ? checkboxFull : checkboxEmpty} className="checkbox" onClick={handleCheck}/>
-            {/*{props.task.completed ? <img src={checkboxFull} className="checkbox" onClick={handleCheck}/>*/}
-            {/*    : <img src={checkboxEmpty} className="checkbox" onClick={handleCheck}/>}*/}
             <p>{props.task.name}</p>
         </li>
 

@@ -87,7 +87,7 @@ body h1 {
   margin-right: 10px;
   color: var(--dbrown);
   font-family: "ShadowsIntoLight", sans-serif;
-
+  height: 50px;
 }
 
 #trash {
@@ -275,4 +275,26 @@ body h1 {
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: var(--dgreen);
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .3);
+}
+
+.modal {
+  background-color: #fff;
+  border-radius: 5pt;
+  border-color: black;
+  border-style: solid;
+  margin: 0 auto;
+  top: 200pt;
+  bottom: 200pt;
+  width: 200pt;
+  padding: 10pt;
+  position: relative;
 }
