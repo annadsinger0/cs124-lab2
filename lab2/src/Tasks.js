@@ -16,7 +16,9 @@ function Tasks(props) {
         });
     }
 
-    shownTasks = shownTasks.map(t => <Task task={t} onChangeField={props.onChangeField} key={t.id}/>);
+    shownTasks = shownTasks.map(t => <Task task={t} onChangeField={props.onChangeField} key={t.id}
+                                           onToggleSelectTask={props.onToggleSelectTask}
+                                           mode={props.mode} selected={props.selectedTaskIDs.includes(t.id)}/>);
 
 
     return (

@@ -8,11 +8,14 @@ import {useState} from "react";
 
 function Task(props) {
     function handleCheck(e) {
-        props.onChangeField(props.task.id, "completed", !props.task.completed)
+        if (props.mode !== "delete") {
+            props.onChangeField(props.task.id, "completed", !props.task.completed)
+        }
     }
+
     return (
 
-        <li className={"task"}>
+        <li className={`task${props.selected ? " selectedTask" : ""}`} onClick={() => props.mode === "delete" ? props.onToggleSelectTask(props.task.id) : null}>
             <img src={props.task.completed ? checkboxFull : checkboxEmpty} className="checkbox" onClick={handleCheck}/>
             {/*{props.task.completed ? <img src={checkboxFull} className="checkbox" onClick={handleCheck}/>*/}
             {/*    : <img src={checkboxEmpty} className="checkbox" onClick={handleCheck}/>}*/}

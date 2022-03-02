@@ -5,6 +5,7 @@ function DeleteTasks(props) {
 
     function handleDeleteSelected() {
 
+
     }
     function handleDeleteCompleted() {
 
@@ -14,12 +15,12 @@ function DeleteTasks(props) {
 
     return (
         <div id="delete-button-group">
-            <div className="delete-button" onClick={handleDeleteSelected}>
-                Delete Selected
+            <div className="delete-button" onClick={props.onDeleteSelectedTasks}>
+                Delete Selected ({props.selectedTaskIDs.length})
             </div>
 
-            <div className="delete-button" onClick={handleDeleteCompleted}>
-                Delete Completed {completedTaskCount}
+            <div className="delete-button" onClick={props.onDeleteCompletedTasks}>
+                Delete Completed ({completedTaskCount})
             </div>
         </div>
     );

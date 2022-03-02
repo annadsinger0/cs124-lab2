@@ -259,6 +259,10 @@ body h1 {
 
 }
 
+#todolist .selectedTask {
+  background-color: red;
+}
+
 /*#new-task-button:after {*/
 /*    content: "";*/
 /*    height: 100px;*/
