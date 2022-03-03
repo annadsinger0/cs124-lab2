@@ -23,8 +23,7 @@ function Tasks(props) {
 
 
     return (
-
-        <ul id="todolist">
+        <ul id={"todolist"} className={props.mode === "delete" ? "delete-mode-list" : ''} >
             {shownTasks}
         </ul>
 

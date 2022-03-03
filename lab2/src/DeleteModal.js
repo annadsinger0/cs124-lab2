@@ -8,7 +8,7 @@ function DeleteModal(props) {
             <div className={"modal"}>
                 <div className={"modal-text"}>
                 Are you sure you would like to delete
-                {props.mode === "edit" ? " this item":
+                {props.mode === "edit" ? " this item?":
                     ` ${props.itemCount} ${props.itemType} items?`}
                 </div>
                 <br/>

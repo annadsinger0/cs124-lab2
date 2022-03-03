@@ -52,6 +52,12 @@ body h1 {
 
 }
 
+#todolist.delete-mode-list {
+  height: 350px;
+}
+
+
+
 #todolist li {
   border: 2px solid var(--dgreen);
   list-style: none;

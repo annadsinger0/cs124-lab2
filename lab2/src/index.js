@@ -5,9 +5,17 @@ import App from './App';
 // import Iframe from './Iframe';
 import reportWebVitals from './reportWebVitals';
 
+const initialData = [
+    {name: "1", id: 1, completed: false},
+    {name: "2", id: 2, completed: true},
+    {name: "3", id: 3, completed: false},
+    {name: "4", id: 4, completed: true},
+    {name: "5", id: 5, completed: false},
+]
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App initialData={initialData}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

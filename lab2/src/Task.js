@@ -12,8 +12,8 @@ function Task(props) {
             // TODO - stretch goal - make it so that parents determine what happens when check is pressed
             // this would allow us to have the check box count as a selection in delete mode
             props.onChangeField(props.task.id, "completed", !props.task.completed)
+            e.stopPropagation();
         }
-        e.stopPropagation();
     }
 
     function handleClick(e) {

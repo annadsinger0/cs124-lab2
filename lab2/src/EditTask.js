@@ -28,8 +28,6 @@ function EditTask(props) {
 
     return (
         <>
-            {showDeleteModal && <DeleteModal mode={"edit"} onDelete={() => props.onDeleteID(props.task.id)}
-                                             onCancel={() => setShowDeleteModal(false)}/>}
             <div  id="todolist">
                 <Task task={props.task} onChangeField={props.onChangeField}
                     onToggleSelectTask={props.onToggleSelectTask}
@@ -47,6 +45,10 @@ function EditTask(props) {
                     Delete Task
                 </div>
             </div>
+
+
+            {showDeleteModal && <DeleteModal mode={"edit"} onDelete={() => props.onDeleteID(props.task.id)}
+                                             onCancel={() => setShowDeleteModal(false)}/>}
         </>
     )
 

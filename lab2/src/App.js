@@ -13,18 +13,10 @@ import Task from "./Task";
 import EditTask from "./EditTask";
 import DeleteModal from "./DeleteModal";
 
-const initialData = [
-    {name: "1", id: 1, completed: false},
-    {name: "2", id: 2, completed: true},
-    {name: "3", id: 3, completed: false},
-    {name: "4", id: 4, completed: true},
-    {name: "5", id: 5, completed: false},
-]
 
-// TODO list - navigation, delete confirmation
 
-function App() {
-    const [tasks, setTasks] = useState(initialData);
+function App(props) {
+    const [tasks, setTasks] = useState(props.initialData);
     const [showCompleted, setShowCompleted] = useState(true);
     const [nextID, setNextID] = useState(10); //TODO - fix initial state
     const [selectedTaskIDs, setSelectedTaskIDs] = useState([]);
