@@ -40,6 +40,9 @@ function App() {
     }
 
     function handleChangeMode(newMode, newEditTaskID = null) {
+        if (tasks.length === 0 && newMode === "delete") { // pressed delete with no tasks -> no need to change mode
+            return;
+        }
         if (newEditTaskID) {
             setEditTaskID(newEditTaskID);
         }
@@ -107,6 +110,16 @@ function App() {
         setMode("home");
     }
 
+    function handleBack() {
+        if (mode === "edit") {
+            setMode("home");
+        }
+        if (mode === "delete") {
+            handleClearSelectedTasks();
+            setMode("home");
+        }
+    }
+
     useEffect(() => {
         document.title = `ToDo`;
     }, []);
@@ -116,7 +129,7 @@ function App() {
           <h1>ToDo</h1>
 
           <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
-                 onChangeMode={handleChangeMode}/>
+                 onChangeMode={handleChangeMode} onBack={handleBack}/>
 
           {mode !== 'edit' &&
               <Tasks tasks={tasks} onChangeField={handleChangeField} showCompleted={showCompleted}

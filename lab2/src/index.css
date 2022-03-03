@@ -13,6 +13,7 @@
   --dgreen: #6e6e5c;
   --lgreen: #868370;
   --tan: #e7c09f;
+  --red: #a34539;
 }
 
 @font-face {
@@ -260,7 +261,7 @@ body h1 {
 }
 
 #todolist .selectedTask {
-  background-color: red;
+  background-color: var(--red);
 }
 
 /*#new-task-button:after {*/
@@ -283,18 +284,49 @@ body h1 {
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, .3);
+  background-color: rgba(0, 0, 0, .5);
 }
 
 .modal {
-  background-color: #fff;
   border-radius: 5pt;
-  border-color: black;
+  border-color: var(--lbrown);
   border-style: solid;
   margin: 0 auto;
   top: 200pt;
   bottom: 200pt;
   width: 200pt;
-  padding: 10pt;
+  padding: 20pt;
   position: relative;
+  background-color: var(--tan);
+  font-family: "ShadowsIntoLight", sans-serif;
+
+}
+
+.modal-text {
+  color: var(--dbrown);
+  text-align: center;
+  font-size: large;
+}
+
+.modal button {
+  margin: 0 auto;
+  color: var(--dbrown);
+  background-color: var(--lgreen);
+  font-family: "ShadowsIntoLight", sans-serif;
+  padding: 5px 15px 5px 15px;
+  border-radius: 10px;
+}
+
+#cancel {
+  background-color: var(--lgreen);
+  font-size: large;
+}
+
+#confirm {
+  background-color: var(--red);
+  font-size: large;
+}
+
+.modal-buttons {
+  display: flex;
 }

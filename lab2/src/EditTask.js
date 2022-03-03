@@ -6,11 +6,14 @@ import checkboxFull from "./assets/checkboxFull.png";
 import trashcan from "./assets/trashcan.png";
 import {useState} from "react";
 import Task from "./Task";
+import DeleteModal from "./DeleteModal";
 
 
 function EditTask(props) {
 
     const [taskName, setTaskName] = useState("");
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     function handleRename(e) {
         props.onChangeField(props.task.id, "name", taskName)
@@ -23,14 +26,12 @@ function EditTask(props) {
         }
     }
 
-    function onDeleteTask() {
-        props.onDeleteID(props.task.id);
-        // TODO - get out of delete mode
-    }
-
     return (
         <>
-            <div  id="todolist"> <Task task={props.task} onChangeField={props.onChangeField}
+            {showDeleteModal && <DeleteModal mode={"edit"} onDelete={() => props.onDeleteID(props.task.id)}
+                                             onCancel={() => setShowDeleteModal(false)}/>}
+            <div  id="todolist">
+                <Task task={props.task} onChangeField={props.onChangeField}
                     onToggleSelectTask={props.onToggleSelectTask}
                     mode={props.mode} selected={false}/>
             </div>
@@ -42,7 +43,7 @@ function EditTask(props) {
 
                 </div>
 
-                <div className="delete-button" onClick={onDeleteTask}>
+                <div className="delete-button" onClick={() => {setShowDeleteModal(true);console.log(showDeleteModal)}}>
                     Delete Task
                 </div>
             </div>

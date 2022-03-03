@@ -7,7 +7,6 @@ import trashcan from "./assets/trashcan.png";
 
 function Tools(props) {
     return (
-
         <div id="tools">
             {props.mode === "home" ?
                 <>
@@ -21,7 +20,7 @@ function Tools(props) {
                     <img src={trashcan} id="trash" onClick={() => props.onChangeMode("delete")}/>
                 </>
                     :
-                <p style={{marginLeft: "auto"}} onClick={() => props.onChangeMode("home")}> Back </p>
+                <p style={{marginLeft: "auto"}} onClick={props.onBack}> Back </p>
             }
         </div>
 
