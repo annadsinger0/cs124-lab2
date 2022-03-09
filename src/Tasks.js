@@ -5,9 +5,10 @@ function Tasks(props) {
 
     let shownTasks = props.tasks;
 
-    if (shownTasks.length == 0) {
-        return <h1> no tasks </h1>;{/*TODO fix*/}
-    }
+    // TODO - change this
+    if (shownTasks.length === 0)
+        return <h1> no tasks </h1>;
+
 
     // Optionally remove completed tasks from the list of tasks to show
     if (!props.showCompleted) {

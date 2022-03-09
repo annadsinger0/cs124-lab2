@@ -28,9 +28,7 @@ const db = getFirestore(firebaseApp);
 const collectionName = "tasks";
 
 function App(props) {
-    // const [tasks, setTasks] = useState(props.initialData);
     const [showCompleted, setShowCompleted] = useState(true);
-    const [nextID, setNextID] = useState(10); //TODO - fix initial state
     const [selectedTaskIDs, setSelectedTaskIDs] = useState([]);
     // TODO - set appropriately once we figure out nav
     // modes: home, delete, edit
@@ -39,7 +37,7 @@ function App(props) {
     const [editTaskID, setEditTaskID] = useState(1);
 
     const q = query(collection(db, collectionName));    // Fill in query here
-    const [tasks, loading, error] = useCollectionData(q);
+    const [tasks, loading, ] = useCollectionData(q);
 
     function handleChangeField(id, changeField, value) {
         // setTasks(tasks.map(task => task.id === id ?
@@ -143,10 +141,10 @@ function App(props) {
           <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
                  onChangeMode={handleChangeMode} onBack={handleBack}/>
 
-          {/*//TODO delete this*/}
+          {/*TODO delete this*/}
           {loading && <h1>loading</h1>}
 
-          {mode !== 'edit' &&
+          {mode !== 'edit' && !loading &&
               <Tasks tasks={tasks} onChangeField={handleChangeField} showCompleted={showCompleted}
                      onToggleSelectTask={handleToggleSelectTask} mode={mode} selectedTaskIDs={selectedTaskIDs}
                      onChangeMode={handleChangeMode}/>
