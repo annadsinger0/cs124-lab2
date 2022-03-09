@@ -1,17 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
-import {Fragment, useEffect} from "react";
-import checkboxEmpty from "./assets/checkboxEmpty.png";
-import checkboxFull from "./assets/checkboxFull.png";
-import trashcan from "./assets/trashcan.png";
+import { useEffect} from "react";
 import Tools from "./Tools";
 import Tasks from "./Tasks";
 import AddTask from "./AddTask";
 import {useState} from "react";
 import DeleteTasks from "./DeleteTasks";
-import Task from "./Task";
 import EditTask from "./EditTask";
-import DeleteModal from "./DeleteModal";
 
 
 

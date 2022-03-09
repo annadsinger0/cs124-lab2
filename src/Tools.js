@@ -1,6 +1,4 @@
-import logo from './logo.svg';
 import './App.css';
-import {Fragment} from "react";
 import checkboxEmpty from "./assets/checkboxEmpty.png";
 import checkboxFull from "./assets/checkboxFull.png";
 import trashcan from "./assets/trashcan.png";
