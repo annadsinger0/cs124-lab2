@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/cs124-lab2/static/css/main.53acdc95.css",
-    "main.js": "/cs124-lab2/static/js/main.2e76fec0.js",
-    "static/js/787.858e52bd.chunk.js": "/cs124-lab2/static/js/787.858e52bd.chunk.js",
-    "static/media/checkboxFull.png": "/cs124-lab2/static/media/checkboxFull.1895750d837ec8bd25e1.png",
-    "static/media/checkboxEmpty.png": "/cs124-lab2/static/media/checkboxEmpty.35c155a89bf1beb6284f.png",
-    "static/media/ShadowsIntoLight.ttf": "/cs124-lab2/static/media/ShadowsIntoLight.36b8eb64b1282f2a6efb.ttf",
-    "static/media/HarvestBarn.ttf": "/cs124-lab2/static/media/HarvestBarn.128f633747c8eedc0ed8.ttf",
-    "index.html": "/cs124-lab2/index.html",
-    "main.53acdc95.css.map": "/cs124-lab2/static/css/main.53acdc95.css.map",
-    "main.2e76fec0.js.map": "/cs124-lab2/static/js/main.2e76fec0.js.map",
-    "787.858e52bd.chunk.js.map": "/cs124-lab2/static/js/787.858e52bd.chunk.js.map"
+    "main.css": "/static/css/main.a7a98cbf.css",
+    "main.js": "/static/js/main.ff63dd26.js",
+    "static/js/787.858e52bd.chunk.js": "/static/js/787.858e52bd.chunk.js",
+    "static/media/checkboxFull.png": "/static/media/checkboxFull.1895750d837ec8bd25e1.png",
+    "static/media/checkboxEmpty.png": "/static/media/checkboxEmpty.35c155a89bf1beb6284f.png",
+    "static/media/ShadowsIntoLight.ttf": "/static/media/ShadowsIntoLight.36b8eb64b1282f2a6efb.ttf",
+    "static/media/HarvestBarn.ttf": "/static/media/HarvestBarn.128f633747c8eedc0ed8.ttf",
+    "index.html": "/index.html",
+    "main.a7a98cbf.css.map": "/static/css/main.a7a98cbf.css.map",
+    "main.ff63dd26.js.map": "/static/js/main.ff63dd26.js.map",
+    "787.858e52bd.chunk.js.map": "/static/js/787.858e52bd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.53acdc95.css",
-    "static/js/main.2e76fec0.js"
+    "static/css/main.a7a98cbf.css",
+    "static/js/main.ff63dd26.js"
   ]
 }
