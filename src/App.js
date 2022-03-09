@@ -7,10 +7,28 @@ import {useState} from "react";
 import DeleteTasks from "./DeleteTasks";
 import EditTask from "./EditTask";
 
+import { initializeApp } from "firebase/app";
+import { getFirestore, query, collection, doc, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
+import {useCollectionData} from "react-firebase-hooks/firestore";
+import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDOnElC_vlc65Fl1WVTUVg5pMcOivIv-Cw",
+    authDomain: "cs124-lab3-a5cf8.firebaseapp.com",
+    projectId: "cs124-lab3-a5cf8",
+    storageBucket: "cs124-lab3-a5cf8.appspot.com",
+    messagingSenderId: "1089016344467",
+    appId: "1:1089016344467:web:a503e3b598a5e467acc266"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+
+const collectionName = "tasks";
 
 function App(props) {
-    const [tasks, setTasks] = useState(props.initialData);
+    // const [tasks, setTasks] = useState(props.initialData);
     const [showCompleted, setShowCompleted] = useState(true);
     const [nextID, setNextID] = useState(10); //TODO - fix initial state
     const [selectedTaskIDs, setSelectedTaskIDs] = useState([]);
@@ -20,9 +38,14 @@ function App(props) {
 
     const [editTaskID, setEditTaskID] = useState(1);
 
+    const q = query(collection(db, collectionName));    // Fill in query here
+    const [tasks, loading, error] = useCollectionData(q);
+
     function handleChangeField(id, changeField, value) {
-        setTasks(tasks.map(task => task.id === id ?
-            {...task, [changeField]: value} : task ));
+        // setTasks(tasks.map(task => task.id === id ?
+        //     {...task, [changeField]: value} : task ));
+
+        updateDoc(doc(db, collectionName, id), {[changeField]: value});
     }
 
     function handleChangeMode(newMode, newEditTaskID = null) {
@@ -36,8 +59,11 @@ function App(props) {
     }
 
     function handleAddTask(name) {
-        setTasks(tasks.concat({name: name, id: nextID, completed: false}));
-        setNextID(nextID + 1);
+        const id = generateUniqueID();
+        // setTasks(tasks.concat({name: name, id: nextID, completed: false}));
+        // setNextID(nextID + 1);
+
+        setDoc(doc(db, collectionName, id), {name: name, completed: false, id: id});
     }
 
     function handleToggleShowCompleted() {
@@ -65,25 +91,22 @@ function App(props) {
     }
 
     function handleDeleteSelectedTasks() {
-        setTasks(tasks.filter(t => !selectedTaskIDs.includes(t.id)));
+        // setTasks(tasks.filter(t => !selectedTaskIDs.includes(t.id)));
+        selectedTaskIDs.forEach(id => deleteDoc(doc(db, collectionName, id)));
         setSelectedTaskIDs([]);
     }
 
     function handleDeleteCompletedTasks () {
-        let newTasks = [];
         let newSelectedTaskIDs = selectedTaskIDs;
         tasks.forEach(t => {
-            if (!t.completed) {
-                newTasks = newTasks.concat(t);
-            }
-            else { // if (t.completed)
+            if (t.completed) {
+                deleteDoc(doc(db, collectionName, t.id));
                 let index = newSelectedTaskIDs.indexOf(t.id);
                 if (index > -1) {
                     newSelectedTaskIDs.splice(index, 1);
                 }
             }
         })
-        setTasks(newTasks);
         setSelectedTaskIDs(newSelectedTaskIDs);
     }
 
@@ -92,7 +115,8 @@ function App(props) {
     }
 
     function handleDeleteID(id) {
-        setTasks(tasks.filter(t => t.id !== id));
+        // setTasks(tasks.filter(t => t.id !== id));
+        deleteDoc(doc(db, collectionName, id));
         setMode("home");
     }
 
@@ -110,12 +134,17 @@ function App(props) {
         document.title = `ToDo`;
     }, []);
 
+    // if ()
+
   return (
       <div>
           <h1>ToDo</h1>
 
           <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
                  onChangeMode={handleChangeMode} onBack={handleBack}/>
+
+          {/*//TODO delete this*/}
+          {loading && <h1>loading</h1>}
 
           {mode !== 'edit' &&
               <Tasks tasks={tasks} onChangeField={handleChangeField} showCompleted={showCompleted}

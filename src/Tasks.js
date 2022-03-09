@@ -2,7 +2,12 @@ import './App.css';
 import Task from "./Task";
 
 function Tasks(props) {
+
     let shownTasks = props.tasks;
+
+    if (shownTasks.length == 0) {
+        return <h1> no tasks </h1>;{/*TODO fix*/}
+    }
 
     // Optionally remove completed tasks from the list of tasks to show
     if (!props.showCompleted) {
