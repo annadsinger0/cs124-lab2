@@ -13,13 +13,13 @@ function Tools(props) {
                     <span>Show completed items</span>
                     {/*<img src={checkboxFull} className="checkbox" id="completed-item-show-check"/>*/}
                     <img src={props.showCompleted ? checkboxFull : checkboxEmpty} className="checkbox"
-                         id="completed-item-show-check" onClick={props.onToggleShowCompleted}/>
+                         id="completed-item-show-check" onClick={props.onToggleShowCompleted} alt={"checkbox"}/>
                 </label>
             }
             {props.mode === "home" ?
                 <>
                     <input type="checkbox" id="completed-item-show"/>
-                    <img src={trashcan} id="trash" onClick={() => props.onChangeMode("delete")}/>
+                    <img src={trashcan} id="trash" onClick={() => props.onChangeMode("delete")} alt={"trash"}/>
                 </>
                     :
                 <p style={{marginLeft: "auto"}} onClick={props.onBack}> Back </p>
