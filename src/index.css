@@ -213,16 +213,19 @@ body h1 {
 }
 
 .priority-display {
-  text-align: right;
+  text-align: center;
   padding-right: 10px;
   font-weight: 4000;
+  width: 30px;
 }
 
 .task {
   word-wrap: break-word;
 }
-.task p {
-  inline-size: 230px;
+
+#todolist .task-name {
+  padding-right: 20px;
+  inline-size: 200px;
 }
 
 #new-task-input {

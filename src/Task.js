@@ -25,7 +25,7 @@ function Task(props) {
 
         <li onClick={handleClick} className={`task${props.selected ? " selectedTask" : ""}`} >
             <img src={props.task.completed ? checkboxFull : checkboxEmpty} className="checkbox" onClick={handleCheck} alt={"checkbox"}/>
-            <p>{props.task.name}</p>
+            <p className={"task-name"}>{props.task.name}</p>
             <p className={"priority-display"}>{"! ".repeat(props.task.priority)}</p>
         </li>
 
