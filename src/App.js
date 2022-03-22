@@ -61,7 +61,7 @@ function App(props) {
         // setTasks(tasks.concat({name: name, id: nextID, completed: false}));
         // setNextID(nextID + 1);
 
-        setDoc(doc(db, collectionName, id), {name: name, completed: false, id: id});
+        setDoc(doc(db, collectionName, id), {name: name, completed: false, id: id, priority: 0});
     }
 
     function handleToggleShowCompleted() {

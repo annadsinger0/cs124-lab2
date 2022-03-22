@@ -29,7 +29,7 @@ function DeleteTasks(props) {
 
     return (
         <>
-            <div id="delete-button-group">
+            <div id="button-group">
                 <div className="delete-button" onClick={
                     () => props.selectedTaskIDs.length > 0 && setDeleteModalState("selected")
                 }>
