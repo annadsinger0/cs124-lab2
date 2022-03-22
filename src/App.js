@@ -8,7 +8,7 @@ import DeleteTasks from "./DeleteTasks";
 import EditTask from "./EditTask";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, query, collection, doc, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
+import { getFirestore, query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
@@ -36,8 +36,17 @@ function App(props) {
 
     const [editTaskID, setEditTaskID] = useState(1);
 
-    const q = query(collection(db, collectionName));    // Fill in query here
-    const [tasks, loading, ] = useCollectionData(q);
+    const Queries = {
+        CreatedSort: query(collection(db, collectionName), orderBy("created")),
+        PrioritySort: query(collection(db, collectionName), orderBy("priority")),
+        NameSort: query(collection(db, collectionName), orderBy("name")),
+        CompletedSort: query(collection(db, collectionName), orderBy("completed"))
+    };
+
+    // created, priority, name, completed
+    const [sortBy, setSortBy] = useState(Queries.CreatedSort);
+
+    const [tasks, loading, ] = useCollectionData(sortBy);
 
     function handleChangeField(id, changeField, value) {
         // setTasks(tasks.map(task => task.id === id ?
@@ -61,7 +70,7 @@ function App(props) {
         // setTasks(tasks.concat({name: name, id: nextID, completed: false}));
         // setNextID(nextID + 1);
 
-        setDoc(doc(db, collectionName, id), {name: name, completed: false, id: id, priority: 0});
+        setDoc(doc(db, collectionName, id), {name: name, completed: false, id: id, priority: 0, created: serverTimestamp()});
     }
 
     function handleToggleShowCompleted() {
