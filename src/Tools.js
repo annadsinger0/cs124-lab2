@@ -6,8 +6,6 @@ import trashcan from "./assets/trashcan.png";
 function Tools(props) {
     return (
         <div id="tools">
-            <>
-            </>
             {(props.mode === "home" || props.mode === "delete") &&
                 <label htmlFor="completed-item-show" id="completed-item-show-label">
                     <span>Show completed items</span>

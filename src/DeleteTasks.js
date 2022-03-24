@@ -1,12 +1,18 @@
 import './App.css';
-import {useMemo, useState} from "react";
+import {useState, useEffect} from "react";
 import DeleteModal from "./DeleteModal";
 
 function DeleteTasks(props) {
 
     const [deleteModalState, setDeleteModalState] = useState("none");
 
-    const completedTaskCount = useMemo(() => props.tasks.filter(t => t.completed).length, [props.tasks]);
+    const [completedTaskCount, setCompletedTaskCount] = useState(0);
+
+    useEffect(() => {
+        if (!props.loading) {
+            setCompletedTaskCount(props.tasks.filter(t => t.completed).length)
+        }
+    }, [props.tasks, props.loading]);
 
     function handleDelete() {
         if (deleteModalState === 'selected') {

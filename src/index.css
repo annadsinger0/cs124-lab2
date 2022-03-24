@@ -48,12 +48,12 @@ body h1 {
   list-style: none;
   overflow: scroll;
   padding: 0px 15px 0px 15px;
-  height: 400px;
+  height: 375px;
 
 }
 
 #todolist.delete-mode-list {
-  height: 350px;
+  height: 330px;
 }
 
 
@@ -95,6 +95,18 @@ body h1 {
   color: var(--dbrown);
   font-family: "ShadowsIntoLight", sans-serif;
   height: 50px;
+}
+
+#sort-by {
+  width: 320px;
+  display: inline;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: var(--dbrown);
+  font-family: "ShadowsIntoLight", sans-serif;
+  height: 30px;
 }
 
 #trash {
@@ -377,4 +389,12 @@ body h1 {
 
 .modal-buttons {
   display: flex;
+}
+
+#sort {
+  font-family: "ShadowsIntoLight", sans-serif;
+  color: var(--dbrown);
+  background-color: var(--tan);
+  margin-left: 10px;
+  margin-bottom: 5px;
 }

@@ -6,6 +6,7 @@ import AddTask from "./AddTask";
 import {useState} from "react";
 import DeleteTasks from "./DeleteTasks";
 import EditTask from "./EditTask";
+import SortBy from "./SortBy";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore, query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -30,7 +31,6 @@ const collectionName = "tasks";
 function App(props) {
     const [showCompleted, setShowCompleted] = useState(true);
     const [selectedTaskIDs, setSelectedTaskIDs] = useState([]);
-    // TODO - set appropriately once we figure out nav
     // modes: home, delete, edit
     const [mode, setMode] = useState("home");
 
@@ -38,13 +38,13 @@ function App(props) {
 
     const Queries = {
         CreatedSort: query(collection(db, collectionName), orderBy("created")),
-        PrioritySort: query(collection(db, collectionName), orderBy("priority")),
+        PrioritySort: query(collection(db, collectionName), orderBy("priority", "desc")),
         NameSort: query(collection(db, collectionName), orderBy("name")),
         CompletedSort: query(collection(db, collectionName), orderBy("completed"))
     };
 
     // created, priority, name, completed
-    const [sortBy, setSortBy] = useState(Queries.CreatedSort);
+    const [sortBy, setSortBy] = useState(Queries["CreatedSort"]);
 
     const [tasks, loading, ] = useCollectionData(sortBy);
 
@@ -137,6 +137,10 @@ function App(props) {
         }
     }
 
+    function handleSetSortBy(sort) {
+        setSortBy(Queries[sort]);
+    }
+
     useEffect(() => {
         document.title = `ToDo`;
     }, []);
@@ -149,6 +153,9 @@ function App(props) {
 
           <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
                  onChangeMode={handleChangeMode} onBack={handleBack}/>
+
+          {(mode === "home" || mode === "delete") &&
+              <SortBy onChangeSort={handleSetSortBy}/> }
 
           {/*TODO delete this*/}
           {loading && <h1>loading</h1>}
@@ -168,12 +175,13 @@ function App(props) {
                            onDeleteSelectedTasks={handleDeleteSelectedTasks}
                            onDeleteCompletedTasks={handleDeleteCompletedTasks}
                            onClearSelectedTasks={handleClearSelectedTasks}
+                           loading={loading}
                            selectedTaskIDs={selectedTaskIDs}/>
           }
 
           {/*<DeleteModal mode={mode} itemType={"selected"} itemCount={7}/>*/}
 
-          {mode === 'edit' &&
+          {mode === 'edit' && !loading &&
               <EditTask task={tasks.filter(t => t.id === editTaskID)[0]}
                         onToggleSelectTask={handleToggleSelectTask}
                         mode={mode} selected={selectedTaskIDs.includes(editTaskID)} onChangeField={handleChangeField}
