@@ -1,13 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-import {Fragment} from "react";
-import checkboxEmpty from "./assets/checkboxEmpty.png";
-import checkboxFull from "./assets/checkboxFull.png";
-import trashcan from "./assets/trashcan.png";
 import Task from "./Task";
 
 function Tasks(props) {
+
     let shownTasks = props.tasks;
+
+    // TODO - change this
+    if (shownTasks.length === 0)
+        return <h1> no tasks </h1>;
+
 
     // Optionally remove completed tasks from the list of tasks to show
     if (!props.showCompleted) {

@@ -1,10 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
-import {Fragment} from "react";
 import checkboxEmpty from "./assets/checkboxEmpty.png";
 import checkboxFull from "./assets/checkboxFull.png";
-import trashcan from "./assets/trashcan.png";
-import {useState} from "react";
 
 function Task(props) {
     function handleCheck(e) {
@@ -28,8 +24,9 @@ function Task(props) {
     return (
 
         <li onClick={handleClick} className={`task${props.selected ? " selectedTask" : ""}`} >
-            <img src={props.task.completed ? checkboxFull : checkboxEmpty} className="checkbox" onClick={handleCheck}/>
-            <p>{props.task.name}</p>
+            <img src={props.task.completed ? checkboxFull : checkboxEmpty} className="checkbox" onClick={handleCheck} alt={"checkbox"}/>
+            <p className={"task-name"}>{props.task.name}</p>
+            <p className={"priority-display"}>{"! ".repeat(props.task.priority)}</p>
         </li>
 
     );
