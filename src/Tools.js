@@ -1,6 +1,4 @@
 import './App.css';
-import checkboxEmpty from "./assets/checkboxEmpty.png";
-import checkboxFull from "./assets/checkboxFull.png";
 import trashcan from "./assets/trashcan.png";
 import Checkbox from "./Checkbox";
 

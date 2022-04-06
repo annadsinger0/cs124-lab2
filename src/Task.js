@@ -1,6 +1,4 @@
 import './App.css';
-import checkboxEmpty from "./assets/checkboxEmpty.png";
-import checkboxFull from "./assets/checkboxFull.png";
 import Checkbox from "./Checkbox";
 
 function Task(props) {
