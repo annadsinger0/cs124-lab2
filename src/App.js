@@ -1,17 +1,13 @@
 import './App.css';
-import { useEffect} from "react";
-import Tools from "./Tools";
-import Tasks from "./Tasks";
-import AddTask from "./AddTask";
-import {useState} from "react";
-import DeleteTasks from "./DeleteTasks";
-import EditTask from "./EditTask";
-import SortBy from "./SortBy";
+import ToDoListView from "./ToDoListView";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore, query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
+import {useState} from "react";
+import AllListsView from "./AllListsView";
+
 
 
 const firebaseConfig = {
@@ -29,142 +25,30 @@ const db = getFirestore(firebaseApp);
 const collectionName = "tasks";
 
 function App(props) {
-    const [showCompleted, setShowCompleted] = useState(true);
-    const [selectedTaskIDs, setSelectedTaskIDs] = useState([]);
-    // modes: home, delete, edit
-    const [mode, setMode] = useState("home");
 
-    const [editTaskID, setEditTaskID] = useState(1);
+    const [listId, setListId] = useState("");
 
-    const Queries = {
-        CreatedSort: query(collection(db, collectionName), orderBy("created")),
-        PrioritySort: query(collection(db, collectionName), orderBy("priority", "desc")),
-        NameSort: query(collection(db, collectionName), orderBy("name")),
-        CompletedSort: query(collection(db, collectionName), orderBy("completed"))
-    };
-
-    // created, priority, name, completed
-    const [sortBy, setSortBy] = useState(Queries["CreatedSort"]);
-
-    const [tasks, loading, ] = useCollectionData(sortBy);
-
-    function handleChangeField(id, changeField, value) {
-        updateDoc(doc(db, collectionName, id), {[changeField]: value});
+    function handleBackToAllListsView() {
+        setListId("");
     }
 
-    function handleChangeMode(newMode, newEditTaskID = null) {
-        if (tasks.length === 0 && newMode === "delete") { // pressed delete with no tasks -> no need to change mode
-            return;
-        }
-        if (newEditTaskID) {
-            setEditTaskID(newEditTaskID);
-        }
-        setMode(newMode);
+    function handleChangeListId(id) {
+        setListId(id);
     }
 
-    function handleAddTask(name) {
-        const id = generateUniqueID();
-        setDoc(doc(db, collectionName, id), {name: name, completed: false, id: id, priority: 0, created: serverTimestamp()});
-    }
+    // TODO - when no tasks it looks weird
 
-    function handleToggleShowCompleted() {
-        setShowCompleted(!showCompleted);
-    }
-
-    function handleToggleSelectTask(id) {
-        if (selectedTaskIDs.includes(id)) {
-            setSelectedTaskIDs(selectedTaskIDs.filter(t => t !== id));
-        } else {
-            setSelectedTaskIDs(selectedTaskIDs.concat(id));
-        }
-    }
-
-    function handleDeleteSelectedTasks() {
-        selectedTaskIDs.forEach(id => deleteDoc(doc(db, collectionName, id)));
-        setSelectedTaskIDs([]);
-    }
-
-    function handleDeleteCompletedTasks () {
-        let newSelectedTaskIDs = selectedTaskIDs;
-        tasks.forEach(t => {
-            if (t.completed) {
-                deleteDoc(doc(db, collectionName, t.id));
-                let index = newSelectedTaskIDs.indexOf(t.id);
-                if (index > -1) {
-                    newSelectedTaskIDs.splice(index, 1);
-                }
+    return (
+        <div id={"container"}>
+            {listId !== "" &&
+                <ToDoListView db={db} id={listId} onBackToAllListsView={handleBackToAllListsView}/>
             }
-        })
-        setSelectedTaskIDs(newSelectedTaskIDs);
-    }
+            {listId === "" &&
+                <AllListsView db={db} onChangeListId={handleChangeListId} />
 
-    function handleClearSelectedTasks() {
-        setSelectedTaskIDs([]);
-    }
-
-    function handleDeleteID(id) {
-        deleteDoc(doc(db, collectionName, id));
-        setMode("home");
-    }
-
-    function handleBack() {
-        if (mode === "edit") {
-            setMode("home");
-        }
-        if (mode === "delete") {
-            handleClearSelectedTasks();
-            setMode("home");
-        }
-    }
-
-    function handleSetSortBy(sort) {
-        setSortBy(Queries[sort]);
-    }
-
-    useEffect(() => {
-        document.title = `ToDo`;
-    }, []);
-
-  return (
-      <div id={"container"}>
-          <h1 id={"title"}>ToDo</h1>
-
-          <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
-                 onChangeMode={handleChangeMode} onBack={handleBack}/>
-
-          {(mode === "home" || mode === "delete") &&
-              <SortBy onChangeSort={handleSetSortBy}/> }
-
-          {/*TODO delete this*/}
-          {loading && <h1>loading</h1>}
-
-          {mode !== 'edit' && !loading &&
-              <Tasks tasks={tasks} onChangeField={handleChangeField} showCompleted={showCompleted}
-                     onToggleSelectTask={handleToggleSelectTask} mode={mode} selectedTaskIDs={selectedTaskIDs}
-                     onChangeMode={handleChangeMode}/>
-          }
-
-          {mode === 'home' &&
-              <AddTask onAddTask={handleAddTask}/>
-          }
-
-          {mode === 'delete' &&
-              <DeleteTasks tasks={tasks} onToggleSelectTask={handleToggleSelectTask}
-                           onDeleteSelectedTasks={handleDeleteSelectedTasks}
-                           onDeleteCompletedTasks={handleDeleteCompletedTasks}
-                           onClearSelectedTasks={handleClearSelectedTasks}
-                           loading={loading}
-                           selectedTaskIDs={selectedTaskIDs}/>
-          }
-
-          {mode === 'edit' && !loading &&
-              <EditTask task={tasks.filter(t => t.id === editTaskID)[0]}
-                        onToggleSelectTask={handleToggleSelectTask}
-                        mode={mode} selected={selectedTaskIDs.includes(editTaskID)} onChangeField={handleChangeField}
-                        onDeleteID={handleDeleteID}/>
-          }
-      </div>
-  );
+            }
+        </div>
+    );
 }
 
 export default App;
