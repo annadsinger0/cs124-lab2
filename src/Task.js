@@ -23,7 +23,7 @@ function Task(props) {
     return (
         <li onClick={handleClick} className={`task${props.selected ? " selectedTask" : ""}`}>
             <Checkbox checked={props.task.completed} id="completed-item-show-check"
-                      onToggle={handleCheck} label={""} label={props.task.name}
+                      onToggle={handleCheck} label={props.task.name}
                       disabled={props.mode === "delete"}/>
             {/*<img src={props.task.completed ? checkboxFull : checkboxEmpty} className="checkbox" onClick={handleCheck} alt={"checkbox"}/>*/}
                     <button className={"button"} id={"task-button"} onClick={handleClick} disabled={props.mode === "edit"}>
