@@ -49,9 +49,6 @@ function App(props) {
     const [tasks, loading, ] = useCollectionData(sortBy);
 
     function handleChangeField(id, changeField, value) {
-        // setTasks(tasks.map(task => task.id === id ?
-        //     {...task, [changeField]: value} : task ));
-
         updateDoc(doc(db, collectionName, id), {[changeField]: value});
     }
 
@@ -67,27 +64,12 @@ function App(props) {
 
     function handleAddTask(name) {
         const id = generateUniqueID();
-        // setTasks(tasks.concat({name: name, id: nextID, completed: false}));
-        // setNextID(nextID + 1);
-
         setDoc(doc(db, collectionName, id), {name: name, completed: false, id: id, priority: 0, created: serverTimestamp()});
     }
 
     function handleToggleShowCompleted() {
         setShowCompleted(!showCompleted);
     }
-
-    // function handleSelectTask(id) {
-    //     if (selectedTaskIDs.includes(id)) {
-    //         console.error(`Task with id ${id} is already selected.`);
-    //         return;
-    //     }
-    //     setSelectedTaskIDs(selectedTaskIDs.concat(id));
-    // }
-    //
-    // function handleDeselectTask(id) {
-    //     setSelectedTaskIDs(selectedTaskIDs.filter(t => t !== id));
-    // }
 
     function handleToggleSelectTask(id) {
         if (selectedTaskIDs.includes(id)) {
@@ -98,7 +80,6 @@ function App(props) {
     }
 
     function handleDeleteSelectedTasks() {
-        // setTasks(tasks.filter(t => !selectedTaskIDs.includes(t.id)));
         selectedTaskIDs.forEach(id => deleteDoc(doc(db, collectionName, id)));
         setSelectedTaskIDs([]);
     }
@@ -122,7 +103,6 @@ function App(props) {
     }
 
     function handleDeleteID(id) {
-        // setTasks(tasks.filter(t => t.id !== id));
         deleteDoc(doc(db, collectionName, id));
         setMode("home");
     }
@@ -145,11 +125,9 @@ function App(props) {
         document.title = `ToDo`;
     }, []);
 
-    // if ()
-
   return (
-      <div>
-          <h1>ToDo</h1>
+      <div id={"container"}>
+          <h1 id={"title"}>ToDo</h1>
 
           <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
                  onChangeMode={handleChangeMode} onBack={handleBack}/>
@@ -178,8 +156,6 @@ function App(props) {
                            loading={loading}
                            selectedTaskIDs={selectedTaskIDs}/>
           }
-
-          {/*<DeleteModal mode={mode} itemType={"selected"} itemCount={7}/>*/}
 
           {mode === 'edit' && !loading &&
               <EditTask task={tasks.filter(t => t.id === editTaskID)[0]}

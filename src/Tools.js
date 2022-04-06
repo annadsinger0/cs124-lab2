@@ -2,6 +2,7 @@ import './App.css';
 import checkboxEmpty from "./assets/checkboxEmpty.png";
 import checkboxFull from "./assets/checkboxFull.png";
 import trashcan from "./assets/trashcan.png";
+import Checkbox from "./Checkbox";
 
 function Tools(props) {
     return (
@@ -10,17 +11,22 @@ function Tools(props) {
                 <label htmlFor="completed-item-show" id="completed-item-show-label">
                     <span>Show completed items</span>
                     {/*<img src={checkboxFull} className="checkbox" id="completed-item-show-check"/>*/}
-                    <img src={props.showCompleted ? checkboxFull : checkboxEmpty} className="checkbox"
-                         id="completed-item-show-check" onClick={props.onToggleShowCompleted} alt={"checkbox"}/>
+                    <Checkbox checked={props.showCompleted} id="completed-item-show-check"
+                              onToggle={props.onToggleShowCompleted} label={"Show completed items"}/>
                 </label>
             }
             {props.mode === "home" ?
                 <>
                     <input type="checkbox" id="completed-item-show"/>
-                    <img src={trashcan} id="trash" onClick={() => props.onChangeMode("delete")} alt={"trash"}/>
+                    {/*<img src={trashcan} id="trash" onClick={() => props.onChangeMode("delete")} alt={"trash"}/>*/}
+                    <button className={"button"} onClick={() => props.onChangeMode("delete")}>
+                        <img src={trashcan} id="trash-image"  alt={"trash"}/>
+                    </button>
                 </>
                     :
-                <p style={{marginLeft: "auto"}} onClick={props.onBack}> Back </p>
+                <button onClick={props.onBack} className={"button"}>
+                    <p id={"back-button-text"} onClick={props.onBack}> Back </p>
+                </button>
             }
         </div>
 

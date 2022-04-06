@@ -5,7 +5,7 @@ function AddTask(props) {
     const [taskName, setTaskName] = useState("");
 
     function handleKeyPress(e) {
-        if(e.key === 'Enter'){
+        if((e.key === 'Enter') && (taskName !== "")) {
             handleAddTask();
         }
     }
@@ -17,8 +17,8 @@ function AddTask(props) {
 
     return (
         <div id="new-task">
-            <input type="button" value="+" id="new-task-button"
-                   onClick={handleAddTask}/>
+            <input type="button" value="+" id="new-task-button" aria-label={"add task"}
+                   onClick={handleAddTask} disabled={taskName === ""}/>
             <input type="text" id="new-task-input" placeholder="Add task"
                    value={taskName} onChange={e => setTaskName(e.target.value)}
                    onKeyPress={handleKeyPress}/>

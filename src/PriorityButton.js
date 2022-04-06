@@ -2,10 +2,10 @@ import './App.css';
 
 function PriorityButton(props) {
     return (
-       <p className={"priority-button" + (props.isSelectedPriority ? " selectedPriority" : "")}
+       <button className={"priority-button" + (props.isSelectedPriority ? " selectedPriority" : "")}
           onClick={props.onChangePriority}>
            {"! ".repeat(props.level)}
-       </p>
+       </button>
     )
 
 }
