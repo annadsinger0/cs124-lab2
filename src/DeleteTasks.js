@@ -52,7 +52,9 @@ function DeleteTasks(props) {
             {deleteModalState !== "none" &&
                 <DeleteModal mode={props.mode} itemCount={getItemCount()}
                              itemType={deleteModalState}
-                             onDelete={handleDelete} onCancel={() => setDeleteModalState("none")}/>}
+                             onDelete={handleDelete} listMode={false} listName={""}
+                             onCancel={() => setDeleteModalState("none")}/>
+            }
 
         </>
     );

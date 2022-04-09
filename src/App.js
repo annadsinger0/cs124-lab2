@@ -38,6 +38,10 @@ function App(props) {
 
     // TODO - when no tasks it looks weird
 
+    // TODO - clean up firebase
+
+    // TODO - fix resizing problems when title is too long (other ui also overflows page)
+
     return (
         <div id={"container"}>
             {listId !== "" &&

@@ -1,19 +1,15 @@
 import './App.css';
-import { useEffect} from "react";
 import Tools from "./Tools";
 import Tasks from "./Tasks";
 import AddItem from "./AddItem";
-import {useState} from "react";
+import React, {useState} from "react";
 import DeleteTasks from "./DeleteTasks";
 import EditTask from "./EditTask";
 import SortBy from "./SortBy";
 
-import { initializeApp } from "firebase/app";
-import { getFirestore, query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import {useCollectionData} from "react-firebase-hooks/firestore";
+import { query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+import {useCollectionData, useDocument, useDocumentData} from "react-firebase-hooks/firestore";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
-
-
 
 function ToDoListView(props) {
     const [showCompleted, setShowCompleted] = useState(true);
@@ -23,7 +19,12 @@ function ToDoListView(props) {
 
     const [editTaskID, setEditTaskID] = useState(1);
 
-    const tasksCollection = collection(props.db, props.id);
+    const listDoc = doc(props.db, "lists/"+props.id);
+
+
+    const [list, listLoading, _] = useDocumentData(listDoc);
+
+    const tasksCollection = collection(props.db, "lists/"+props.id+"/tasks");
 
     const Queries = {
         CreatedSort: query(tasksCollection, orderBy("created")),
@@ -35,7 +36,7 @@ function ToDoListView(props) {
     // created, priority, name, completed
     const [sortBy, setSortBy] = useState(Queries["CreatedSort"]);
 
-    const [tasks, loading, ] = useCollectionData(sortBy);
+    const [tasks, tasksLoading, ] = useCollectionData(sortBy);
 
     function handleChangeField(id, changeField, value) {
         updateDoc(doc(tasksCollection, id), {[changeField]: value});
@@ -110,22 +111,43 @@ function ToDoListView(props) {
         setSortBy(Queries[sort]);
     }
 
+    function handleChangeListName(name) {
+        updateDoc(listDoc, {name: name});
+    }
+
+    const titleInput = React.createRef();
+    function handleRenameList() {
+        titleInput.current.focus();
+    }
+
+    function handleBack() {
+        if (mode === "home") {
+            props.onBackToAllListsView();
+        }
+        else {
+            setMode("home");
+        }
+    }
+
     return (
         <>
-            <h1 id={"title"}>ToDo</h1>
+            <div id={"back-button-and-title-wrapper"}>
+                <button onClick={handleBack} className={"button"} id={"home-button"}> Back</button>
+                <input type={"text"} onChange={e => handleChangeListName(e.target.value)}
+                       value={listLoading ? "loading" : list.name} ref={titleInput}
+                       className={"title"} id={"list-title"}/>
+            </div>
 
-            <button onClick={props.onBackToAllListsView} className={"button"}> Back</button>
-
-            <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
-                   onChangeMode={handleChangeMode} onBack={handleBack}/>
-
-            {(mode === "home" || mode === "delete") &&
-                <SortBy onChangeSort={handleSetSortBy}/> }
+            {mode !== 'edit' &&
+                <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
+                onChangeMode={handleChangeMode} onBack={handleBack} onChangeSort={handleSetSortBy}
+                itemType={"task"} onRenameList={handleRenameList}/>
+            }
 
             {/*TODO delete this*/}
-            {loading && <h1>loading</h1>}
+            {tasksLoading && <h1>loading</h1>}
 
-            {mode !== 'edit' && !loading &&
+            {mode !== 'edit' && !tasksLoading &&
                 <Tasks tasks={tasks} onChangeField={handleChangeField} showCompleted={showCompleted}
                        onToggleSelectTask={handleToggleSelectTask} mode={mode} selectedTaskIDs={selectedTaskIDs}
                        onChangeMode={handleChangeMode}/>
@@ -140,11 +162,11 @@ function ToDoListView(props) {
                              onDeleteSelectedTasks={handleDeleteSelectedTasks}
                              onDeleteCompletedTasks={handleDeleteCompletedTasks}
                              onClearSelectedTasks={handleClearSelectedTasks}
-                             loading={loading}
+                             loading={tasksLoading}
                              selectedTaskIDs={selectedTaskIDs}/>
             }
 
-            {mode === 'edit' && !loading &&
+            {mode === 'edit' && !tasksLoading &&
                 <EditTask task={tasks.filter(t => t.id === editTaskID)[0]}
                           onToggleSelectTask={handleToggleSelectTask}
                           mode={mode} selected={selectedTaskIDs.includes(editTaskID)} onChangeField={handleChangeField}
