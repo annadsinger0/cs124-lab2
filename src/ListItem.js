@@ -1,5 +1,4 @@
 import './App.css';
-import Checkbox from "./Checkbox";
 import trashcan from "./assets/trashcan.png";
 
 function ListItem(props) {

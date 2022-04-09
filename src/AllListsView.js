@@ -1,20 +1,12 @@
 import './App.css';
-import { useEffect} from "react";
-import Tools from "./Tools";
-import Tasks from "./Tasks";
 import AddItem from "./AddItem";
 import {useState} from "react";
-import DeleteTasks from "./DeleteTasks";
-import EditTask from "./EditTask";
 import SortBy from "./SortBy";
 
-import { initializeApp } from "firebase/app";
-import { getFirestore, query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 import ListItem from "./ListItem";
-import Checkbox from "./Checkbox";
-import trashcan from "./assets/trashcan.png";
 import DeleteModal from "./DeleteModal";
 
 function AllListsView(props) {
@@ -35,13 +27,8 @@ function AllListsView(props) {
 
     const [lists, loading, ] = useCollectionData(sortBy);
 
-    function handleChangeField(id, changeField, value) {
-        updateDoc(doc(listsCollection, "lists/"+id), {[changeField]: value});
-    }
-
     function handleDeleteID(id) {
         deleteDoc(doc(listsCollection, id));
-        // setMode("home");
     }
 
     function handleAddList(name) {

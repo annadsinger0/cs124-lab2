@@ -2,9 +2,7 @@ import './App.css';
 import ToDoListView from "./ToDoListView";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import {useCollectionData} from "react-firebase-hooks/firestore";
-import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
+import { getFirestore } from "firebase/firestore";
 import {useState} from "react";
 import AllListsView from "./AllListsView";
 
@@ -21,8 +19,6 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
-
-const collectionName = "tasks";
 
 function App(props) {
 

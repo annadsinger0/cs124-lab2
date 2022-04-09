@@ -5,8 +5,6 @@ import SortBy from "./SortBy";
 import {useMediaQuery} from "react-responsive";
 
 function Tools(props) {
-    const showToolsInOneLine = useMediaQuery({maxWidth: 500});
-
     return (
         <>
             <div id="tools">

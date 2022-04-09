@@ -5,10 +5,9 @@ import AddItem from "./AddItem";
 import React, {useState} from "react";
 import DeleteTasks from "./DeleteTasks";
 import EditTask from "./EditTask";
-import SortBy from "./SortBy";
 
-import { query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
-import {useCollectionData, useDocument, useDocumentData} from "react-firebase-hooks/firestore";
+import { query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import {useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 function ToDoListView(props) {
@@ -21,8 +20,7 @@ function ToDoListView(props) {
 
     const listDoc = doc(props.db, "lists/"+props.id);
 
-
-    const [list, listLoading, _] = useDocumentData(listDoc);
+    const [list, listLoading, ] = useDocumentData(listDoc);
 
     const tasksCollection = collection(props.db, "lists/"+props.id+"/tasks");
 
@@ -95,16 +93,6 @@ function ToDoListView(props) {
     function handleDeleteID(id) {
         deleteDoc(doc(tasksCollection, id));
         setMode("home");
-    }
-
-    function handleBack() {
-        if (mode === "edit") {
-            setMode("home");
-        }
-        if (mode === "delete") {
-            handleClearSelectedTasks();
-            setMode("home");
-        }
     }
 
     function handleSetSortBy(sort) {
