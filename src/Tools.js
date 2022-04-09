@@ -2,7 +2,6 @@ import './App.css';
 import trashcan from "./assets/trashcan.png";
 import Checkbox from "./Checkbox";
 import SortBy from "./SortBy";
-import {useMediaQuery} from "react-responsive";
 
 function Tools(props) {
     return (

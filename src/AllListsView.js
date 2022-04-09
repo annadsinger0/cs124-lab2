@@ -3,7 +3,7 @@ import AddItem from "./AddItem";
 import {useState} from "react";
 import SortBy from "./SortBy";
 
-import { query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { query, orderBy, collection, doc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 import ListItem from "./ListItem";
