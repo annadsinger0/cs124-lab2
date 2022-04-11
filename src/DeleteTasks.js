@@ -36,23 +36,25 @@ function DeleteTasks(props) {
     return (
         <>
             <div id="button-group">
-                <div className="delete-button" onClick={
+                <button className="delete-button" onClick={
                     () => props.selectedTaskIDs.length > 0 && setDeleteModalState("selected")
-                }>
+                } disabled={deleteModalState !== "none"}>
                     Delete Selected ({props.selectedTaskIDs.length})
-                </div>
-
-                <div className="delete-button" onClick={
+                </button>
+                <br/>
+                <button className="delete-button" onClick={
                     () => completedTaskCount > 0 && setDeleteModalState("completed")
-                }>
+                } disabled={deleteModalState !== "none"}>
                     Delete Completed ({completedTaskCount})
-                </div>
+                </button>
             </div>
 
             {deleteModalState !== "none" &&
                 <DeleteModal mode={props.mode} itemCount={getItemCount()}
                              itemType={deleteModalState}
-                             onDelete={handleDelete} onCancel={() => setDeleteModalState("none")}/>}
+                             onDelete={handleDelete} listMode={false} listName={""}
+                             onCancel={() => setDeleteModalState("none")}/>
+            }
 
         </>
     );

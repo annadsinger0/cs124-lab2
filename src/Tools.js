@@ -1,28 +1,36 @@
 import './App.css';
-import checkboxEmpty from "./assets/checkboxEmpty.png";
-import checkboxFull from "./assets/checkboxFull.png";
 import trashcan from "./assets/trashcan.png";
+import Checkbox from "./Checkbox";
+import SortBy from "./SortBy";
 
 function Tools(props) {
     return (
-        <div id="tools">
-            {(props.mode === "home" || props.mode === "delete") &&
-                <label htmlFor="completed-item-show" id="completed-item-show-label">
-                    <span>Show completed items</span>
-                    {/*<img src={checkboxFull} className="checkbox" id="completed-item-show-check"/>*/}
-                    <img src={props.showCompleted ? checkboxFull : checkboxEmpty} className="checkbox"
-                         id="completed-item-show-check" onClick={props.onToggleShowCompleted} alt={"checkbox"}/>
-                </label>
-            }
-            {props.mode === "home" ?
-                <>
-                    <input type="checkbox" id="completed-item-show"/>
-                    <img src={trashcan} id="trash" onClick={() => props.onChangeMode("delete")} alt={"trash"}/>
-                </>
-                    :
-                <p style={{marginLeft: "auto"}} onClick={props.onBack}> Back </p>
-            }
-        </div>
+        <>
+            <div id="tools">
+                <SortBy onChangeSort={props.onChangeSort} itemType={props.itemType}/>
+                <div id={"show-completed-items"}>
+                    <label htmlFor="completed-item-show" id="completed-item-show-label">
+                        Show completed items:
+                    </label>
+                    <Checkbox checked={props.showCompleted} id="completed-item-show-check"
+                    onToggle={props.onToggleShowCompleted} label={"Show completed items"}/>
+                </div>
+
+
+
+                {props.mode === "home" &&
+                    <>
+                        <div id={"trash"}>
+                            <input type="checkbox" id="completed-item-show"/>
+                            <button className={"button"} onClick={() => props.onChangeMode("delete")}>
+                                <img src={trashcan} className="trash-image"  alt={"trash"}/>
+                            </button>
+                        </div>
+                        <button className={"button"} onClick={props.onRenameList} id={"rename-list-button"}>Rename</button>
+                    </>
+                }
+            </div>
+        </>
 
     );
 }

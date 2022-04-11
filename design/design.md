@@ -1,3 +1,9 @@
+### Accessibility videos
+
+[Keyboard accessibility](https://youtu.be/RwbL56xlsws) REPLACE
+
+[Screen reader accessibility](https://youtu.be/KMhUFF2z9io) REPLACE
+
 ## Design Decisions
 
 We decided early on that we wanted to create an app that felt less tech-y and more natural. This made us think of keywords like 'natural', 'rustic', 'soft', 'hand drawn'.
@@ -34,6 +40,17 @@ We had a few design decisions for this lab. First, we had to decide how to displ
 
 We also had to decide how to display our sorting functionality, as well as how to sort things. We decided to go with a drop down selector menu for our sort by feature because it is more asthetically minimal when not open. And, this is probably a feature that doesn't get changed option, but should still be on the main page. We decided to display this at the top near our toolbar since it is a tool. As far as ascending/descending goes, some of the decisions were easier than others. For completed sort, it made sense to show completed items at the bottom (because who needs to see those as much theyre completed). Same with priority - the items with highest priority should appear at the top, since they are more urgent. For created sort, we thought older tasks appearing at the top made more sense, but we weren't fully sure. And, for name sort, we figured alphabetical made more sense than reverse alphabetical, but again, we weren't totally sure that that was ideal.
 
+## Design Decisions Lab 4
+
+We made quite a few design decisions for this lab. First, let's talk about adding multiple lists. We first needed to design how this would look - we ended up trying to style our list of lists similar to how our regular list works. The differences include that there is no checkbox for the list, and the toolbar looks a bit different. We decided not to have a delete mode for lists since people wouldn't be deleting lists as frequently, and wouldn't delete multiple at once really. So, we decided to include a little trash can delete button at the end instead, so a user could easily delete one list. We also didn't include a rename button here, since there is nothing to rename. And, since lists can't be checked off, there was no need for the show completed tool. 
+
+  We decided to restructure our todo list toolbar. We included a rename option for our lists, since people might need to rename those now that there are more than one. The list title is always an editable input box, and the rename button simply focuses the user on the input box. This is nice because some people might already have the intuition to click on the title to change it so we support that intuition and hopefully it won't get in the way for people who don't have that intuition.
+
+  We put in a back button in the top left corner to go back to the main lists page. This is generally to the left of the list title, but on small screens it will move above the title. We collapsed the back button functionality into this back button, so now returning from edit and delete mode uses the same back button.
+
+  We changed many of the colors so that they would have an appropriate level of contrast between text and background. In general, we made the dark colors darker and the light colors lighter.
+
+  For the priority display, we received user feedback that the red background on the selected priority seemed to indicate greater priority, so we changed it to simply a red border because this might be more effective at signaling what is selected without implying that the selection is somehow more urgent.
 
 
 ### Alternate Designs
@@ -50,6 +67,12 @@ We didn't have many alternate design decisions. Some we talked about above (like
 ### User Testing for Lab 3
 
 We user tested on one person. She overall was able to use our todo list pretty easily and was able to complete all of the tasks we asked her to do. Some interesting things we noticed though, we that at first, when trying to add a task, she clicked the add button (before typing in a task), and then edited the task name after. When adding a second task though, she realized she could name the task before adding it. After renaming, she also looked at the bottom first for an ok/back button at first, and then realized it was at the top. Neither of these things appeared to be a problem for her once she figured it out. But, it was interesting seeing where she was expecting things to be. This user testing did not reveal any critical flaws we felt we had to deal with right now, but we might try and address some of these things for next lab. 
+
+### User Testing for Lab 4
+
+We user-tested on one person. He had quite a few thoughts on what we could change. Some things we noticed was that he clicked + on the add list and was confused by the fact that it didn't add a list or prompt him for anything. He was confused by the delete button on the todo list page. He thought it would be a delete for the whole list, rather than going into delete mode for tasks. He was concerned when the page was blank during loading. When asked to rename a task, he tried to click on the task name before realizing there was a rename button on the bottom. When trying to select multiple tasks to delete, he tried to click the check boxes rather than just clicking the items. He requested an expanded view of the lists on the lists page, to see what kind of tasks were in it. He also requested a way to prioritize lists and sort by list priority.
+
+We think these are great comments. Some of them don't have solutions we can think of, and some others would be hard to address. We may come back to some of these comments later, but none of them seemed pressing enough that we felt we had to deal with them immediately.
 
 ### The final design
 
@@ -95,6 +118,16 @@ We struggled a bit with some design decisions. As before, the challenge for us w
 
 We also struggled a lot on deploying our app on firebase hosting. We decided to do this prior to class (when we couldn't get help), and had a bit of figuring out to do there. Overall, we were able to figure it out, but it took us longer than expected.
 
+### Challenges Lab 4
+
+We struggled a lot with resizing issues, especially with vertical layout of our list of tasks. We ended up using a flexbox for the entire app.
+
+We had a problem where the checkboxes were actually not checkboxes, but rather images with an onClick, so we had to figure out how to switch those over to work with accessibility.
+
+We had some trouble formatting the toolbar and deciding where everything should go.
+
+We had a lot of design questions regarding allowing multiple different lists and how to do UI for that.
+
 ### Parts we're proud of Lab 1
 
 We're proud that most of the css looks pretty refined. The add task button doesn't look exactly like we want, but we like the rest of it. We got pretty close to what we actually had in mind, which is cool.
@@ -117,3 +150,7 @@ keep it along with our theme
 We are proud of how we were able to keep a cohesive aesthetic while adding more features. We are sticking with the color scheme which helps a lot for this continuity. Furthermore, the original design we came up with seems to be very scalable so far, and we have been able to add the new features without needing to compromise the core app experience.
 
 More specifically, we're proud of how we were able to stylize the priority selector in the edit screen. It looks nice.
+
+### Parts we're proud of Lab 4
+
+We're proud of how robust the app is in terms of resizing, and how well the accessibility features work. We're proud of how the toolbar looks, and the way that the list title renaming worked.

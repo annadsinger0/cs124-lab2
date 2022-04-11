@@ -8,13 +8,17 @@ function SortBy(props) {
 
     return (
         <div id={"sort-by"}>
-        <label htmlFor="sort">Sort by:</label>
-        <select name="sort" id="sort" onChange={handleChangeSort}>
-            <option value="CreatedSort">Created</option>
-            <option value="CompletedSort">Completed</option>
-            <option value="PrioritySort">Priority</option>
-            <option value="NameSort">Alphabetical</option>
-        </select>
+            <label htmlFor="sort">Sort by:</label>
+            <select name="sort" id="sort" onChange={handleChangeSort}>
+                <option value="SortByCreated">Created</option>
+                <option value="SortByName">Alphabetical</option>
+                {props.itemType === "task" &&
+                    <>
+                    <option value="SortByCompleted">Completed</option>
+                    <option value="SortByPriority">Priority</option>
+                    </>
+                }
+            </select>
         </div>
     );
 }

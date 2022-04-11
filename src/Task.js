@@ -1,6 +1,5 @@
 import './App.css';
-import checkboxEmpty from "./assets/checkboxEmpty.png";
-import checkboxFull from "./assets/checkboxFull.png";
+import Checkbox from "./Checkbox";
 
 function Task(props) {
     function handleCheck(e) {
@@ -22,13 +21,17 @@ function Task(props) {
     }
 
     return (
+        <li onClick={handleClick} className={`task${props.selected ? " selectedTask" : ""}`}>
+            <Checkbox checked={props.task.completed} id="completed-item-show-check"
+                      onToggle={handleCheck} label={props.task.name}
+                      disabled={props.mode === "delete"}/>
+                    <button className={"button"} id={"task-button"} onClick={handleClick}
+                            disabled={props.mode === "edit"} aria-label={props.task.name + ", "+ (props.selected ? "selected" : "")}>
+                        <p className={"task-name"}>{props.task.name}</p>
+                    </button>
 
-        <li onClick={handleClick} className={`task${props.selected ? " selectedTask" : ""}`} >
-            <img src={props.task.completed ? checkboxFull : checkboxEmpty} className="checkbox" onClick={handleCheck} alt={"checkbox"}/>
-            <p className={"task-name"}>{props.task.name}</p>
-            <p className={"priority-display"}>{"! ".repeat(props.task.priority)}</p>
+            <p className={"priority-display"} aria-label={"priority level " + props.task.priority}>{"! ".repeat(props.task.priority)}</p>
         </li>
-
     );
 }
 

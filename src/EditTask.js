@@ -41,25 +41,19 @@ function EditTask(props) {
                                             isSelectedPriority={props.task.priority === level} level={level}
                                             key={level}/>
                         )}
-                        {/*<p onClick={() => handleChangePriority(0)}*/}
-                        {/*   className={"priority-button" + isSelectedPriority(0)}></p>*/}
-                        {/*<p id="1-priority-button" onClick={() => handleChangePriority(1)}*/}
-                        {/*   className={"priority-button" + isSelectedPriority(1)}>!</p>*/}
-                        {/*<p id="2-priority-button" onClick={() => handleChangePriority(2)}*/}
-                        {/*   className={"priority-button" + isSelectedPriority(2)}>! !</p>*/}
-                        {/*<p id="3-priority-button" onClick={() => handleChangePriority(3)}*/}
-                        {/*   className={"priority-button" + isSelectedPriority(3)}>! ! !</p>*/}
                     </div>
                 </div>
 
-                {/*TODO - possibly remove id's*/}
+                {/*TODO - disallow empty rename*/}
+                <div id={"rename"}>
                 <input type="text" id="rename-input" placeholder="Rename Task" value={taskName}
                        onChange={e => setTaskName(e.target.value)} onKeyPress={handleKeyPress}/>
-                <input type="button" value="Rename" id="rename-button" onClick={handleRename}  />
-
-                <div className="delete-button" onClick={() => {setShowDeleteModal(true)}}>
-                    Delete Task
+                <input type="button" value="Rename" id="rename-button"
+                       disabled={taskName === ""} onClick={handleRename} />
                 </div>
+                <button className="delete-button" onClick={() => {setShowDeleteModal(true)}}>
+                    Delete Task
+                </button>
             </div>
 
 
