@@ -7,6 +7,7 @@ function Tools(props) {
     return (
         <>
             <div id="tools">
+                <SortBy onChangeSort={props.onChangeSort} itemType={props.itemType}/>
                 <div id={"show-completed-items"}>
                     <label htmlFor="completed-item-show" id="completed-item-show-label">
                         Show completed items:
@@ -15,7 +16,7 @@ function Tools(props) {
                     onToggle={props.onToggleShowCompleted} label={"Show completed items"}/>
                 </div>
 
-                <SortBy onChangeSort={props.onChangeSort} itemType={props.itemType}/>
+
 
                 {props.mode === "home" &&
                     <>

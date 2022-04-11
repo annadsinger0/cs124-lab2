@@ -1,6 +1,6 @@
 import './App.css';
 import AddItem from "./AddItem";
-import {useState} from "react";
+import React, {useState} from "react";
 import SortBy from "./SortBy";
 
 import { query, orderBy, collection, doc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -17,15 +17,15 @@ function AllListsView(props) {
 
     const [deleteModalState, setDeleteModalState] = useState("none");
 
-    const Queries = {
-        CreatedSort: query(listsCollection, orderBy("created")),
-        NameSort: query(listsCollection, orderBy("name")),
+    const SortByEnum = {
+        SortByCreated: orderBy("created"),
+        SortByName: orderBy("name"),
     };
 
     // created, priority, name, completed
-    const [sortBy, setSortBy] = useState(Queries["CreatedSort"]);
+    const [sortBy, setSortBy] = useState(SortByEnum["SortByCreated"]);
 
-    const [lists, loading, ] = useCollectionData(sortBy);
+    const [lists, loading, error] = useCollectionData(query(listsCollection, sortBy));
 
     function handleDeleteID(id) {
         deleteDoc(doc(listsCollection, id));
@@ -37,7 +37,7 @@ function AllListsView(props) {
     }
 
     function handleSetSortBy(sort) {
-        setSortBy(Queries[sort]);
+        setSortBy(SortByEnum[sort]);
     }
 
     function handleClick(id) {
@@ -57,35 +57,36 @@ function AllListsView(props) {
         <>
             <h1 className={"title"}>ToDo</h1>
 
-            {/*TODO delete this*/}
             <div id="tools">
                     <SortBy onChangeSort={handleSetSortBy} mode={"list"} />
-                    {/*<>*/}
-                    {/*    <button className={"button"} onClick={() => setMode("delete")}>*/}
-                    {/*        <img src={trashcan} id="trash-image"  alt={"trash"}/>*/}
-                    {/*    </button>*/}
-                    {/*</>*/}
-
             </div>
 
             {loading && <h1>loading</h1>}
-            <ul id={"all-lists"}>
-                {lists && lists.map((list) =>
-                    <ListItem list={list} selected={false} handleDelete={() => handleDelete(list)}
-                              onClick={() => handleClick(list.id)} />
-                )}
-            </ul>
 
+            {(!loading && lists.length === 0) && <h1>No lists</h1>}
 
-            <AddItem onAddTask={handleAddList} placeholder={"Add list"}/>
-            {/*<button onClick={() => handleAddList("thing")}>create new</button>*/}
+            {error && <h1>Error! Please try again</h1>}
+
+            { !error &&
+                <>
+                <ul id={"all-lists"}>
+                    {lists && lists.map((list) =>
+                        <ListItem list={list} selected={false} handleDelete={() => handleDelete(list)}
+                                  onClick={() => handleClick(list.id)} key={list.id} />
+                    )}
+                </ul>
+
+                <AddItem onAddTask={handleAddList} placeholder={"Add list"}/>
 
             {deleteModalState !== "none" &&
                 <DeleteModal mode={props.mode}
-                             itemType={deleteModalState}
-                             onDelete={handleDeleteButtonModal} listMode={true} listName={deleteModalState.name}
-                             onCancel={() => setDeleteModalState("none")}/>}
-        </>
+                itemType={deleteModalState}
+                onDelete={handleDeleteButtonModal} listMode={true} listName={deleteModalState.name}
+                onCancel={() => setDeleteModalState("none")}/>}
+                </>
+            }
+            </>
+
     );
 }
 

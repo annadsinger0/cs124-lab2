@@ -25,8 +25,8 @@ function Task(props) {
             <Checkbox checked={props.task.completed} id="completed-item-show-check"
                       onToggle={handleCheck} label={props.task.name}
                       disabled={props.mode === "delete"}/>
-            {/*<img src={props.task.completed ? checkboxFull : checkboxEmpty} className="checkbox" onClick={handleCheck} alt={"checkbox"}/>*/}
-                    <button className={"button"} id={"task-button"} onClick={handleClick} disabled={props.mode === "edit"}>
+                    <button className={"button"} id={"task-button"} onClick={handleClick}
+                            disabled={props.mode === "edit"} aria-label={props.task.name + ", "+ (props.selected ? "selected" : "")}>
                         <p className={"task-name"}>{props.task.name}</p>
                     </button>
 

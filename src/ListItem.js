@@ -14,9 +14,8 @@ function ListItem(props) {
                 <p className={"task-name list-name"}>{props.list.name}</p>
             </button>
 
-            {/*TODO - make smaller*/}
             <button className={"button"} onClick={onDelete}>
-                <img src={trashcan} className="trash-image trash-image-smaller"   alt={"trash"}/>
+                <img src={trashcan} className="trash-image trash-image-smaller" alt={"delete list " + props.list.name}/>
             </button>
         </li>
     );

@@ -16,13 +16,19 @@ function AddItem(props) {
     }
 
     return (
+        <>
         <div id="new-task">
             <input type="button" value="+" id="new-task-button" aria-label={props.placeholder}
                    onClick={handleAddItem} disabled={itemName === ""}/>
+
             <input type="text" id="new-task-input" placeholder={props.placeholder}
                    value={itemName} onChange={e => setItemName(e.target.value)}
-                   onKeyPress={handleKeyPress}/>
+                   onKeyPress={handleKeyPress} name={"addItem"} />
+
         </div>
+            <label className={"unwanted-items"} htmlFor={"addItem"}>{props.placeholder}</label>
+        </>
+
     );
 }
 

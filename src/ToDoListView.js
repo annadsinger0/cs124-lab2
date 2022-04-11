@@ -2,7 +2,7 @@ import './App.css';
 import Tools from "./Tools";
 import Tasks from "./Tasks";
 import AddItem from "./AddItem";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import DeleteTasks from "./DeleteTasks";
 import EditTask from "./EditTask";
 
@@ -20,21 +20,29 @@ function ToDoListView(props) {
 
     const listDoc = doc(props.db, "lists/"+props.id);
 
-    const [list, listLoading, ] = useDocumentData(listDoc);
+    const [list, listLoading, listError] = useDocumentData(listDoc);
 
     const tasksCollection = collection(props.db, "lists/"+props.id+"/tasks");
 
-    const Queries = {
-        CreatedSort: query(tasksCollection, orderBy("created")),
-        PrioritySort: query(tasksCollection, orderBy("priority", "desc")),
-        NameSort: query(tasksCollection, orderBy("name")),
-        CompletedSort: query(tasksCollection, orderBy("completed"))
+    const SortByEnum = {
+        SortByCreated: orderBy("created"),
+        SortByPriority: orderBy("priority", "desc"),
+        SortByName: orderBy("name"),
+        SortByCompleted: orderBy("completed")
     };
 
     // created, priority, name, completed
-    const [sortBy, setSortBy] = useState(Queries["CreatedSort"]);
+    const [sortBy, setSortBy] = useState(SortByEnum["SortByCreated"]);
 
-    const [tasks, tasksLoading, ] = useCollectionData(sortBy);
+    const [tasks, tasksLoading, taskError] = useCollectionData(query(tasksCollection, sortBy));
+
+    const [title, setTitle] = useState("loading");
+
+    useEffect(() => {
+        if (!listLoading) {
+            setTitle(list.name)
+        }
+    }, [list])
 
     function handleChangeField(id, changeField, value) {
         updateDoc(doc(tasksCollection, id), {[changeField]: value});
@@ -47,7 +55,9 @@ function ToDoListView(props) {
         if (newEditTaskID) {
             setEditTaskID(newEditTaskID);
         }
+
         setMode(newMode);
+        setSelectedTaskIDs([]);
     }
 
     function handleAddTask(name) {
@@ -96,7 +106,7 @@ function ToDoListView(props) {
     }
 
     function handleSetSortBy(sort) {
-        setSortBy(Queries[sort]);
+        setSortBy(SortByEnum[sort]);
     }
 
     function handleChangeListName(name) {
@@ -115,15 +125,16 @@ function ToDoListView(props) {
         else {
             setMode("home");
         }
+        setSelectedTaskIDs([]);
     }
 
     return (
         <>
             <div id={"back-button-and-title-wrapper"}>
                 <button onClick={handleBack} className={"button"} id={"home-button"}> Back</button>
-                <input type={"text"} onChange={e => handleChangeListName(e.target.value)}
-                       value={listLoading ? "loading" : list.name} ref={titleInput}
-                       className={"title"} id={"list-title"}/>
+                <input type={"text"} onChange={e => setTitle(e.target.value)}
+                       value={listLoading ? "loading" : title} ref={titleInput}
+                       className={"title"} id={"list-title"} onBlur={() => handleChangeListName(title)}/>
             </div>
 
             {mode !== 'edit' &&
@@ -132,10 +143,15 @@ function ToDoListView(props) {
                 itemType={"task"} onRenameList={handleRenameList}/>
             }
 
-            {/*TODO delete this*/}
             {tasksLoading && <h1>loading</h1>}
 
-            {mode !== 'edit' && !tasksLoading &&
+            {(listError || taskError) &&
+                <h1>Error! Please try again</h1>
+            }
+
+            {!(listError || taskError) &&
+                <>
+                {mode !== 'edit' && !tasksLoading &&
                 <Tasks tasks={tasks} onChangeField={handleChangeField} showCompleted={showCompleted}
                        onToggleSelectTask={handleToggleSelectTask} mode={mode} selectedTaskIDs={selectedTaskIDs}
                        onChangeMode={handleChangeMode}/>
@@ -160,6 +176,10 @@ function ToDoListView(props) {
                           mode={mode} selected={selectedTaskIDs.includes(editTaskID)} onChangeField={handleChangeField}
                           onDeleteID={handleDeleteID}/>
             }
+                </>
+            }
+
+
         </>
     );
 }

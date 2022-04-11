@@ -286,9 +286,9 @@ input[type=checkbox]:not(:checked) {
 }
 
 .selectedPriority {
-  background-color: var(--red);
+  background-color: var(--lgreen);
   font-weight: bold;
-  border: 2px solid var(--dred);
+  border: 3px solid var(--dred);
 }
 
 .priority-display {
