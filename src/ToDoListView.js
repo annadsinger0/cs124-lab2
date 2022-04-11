@@ -42,7 +42,7 @@ function ToDoListView(props) {
         if (!listLoading) {
             setTitle(list.name)
         }
-    }, [list])
+    }, [list, listLoading])
 
     function handleChangeField(id, changeField, value) {
         updateDoc(doc(tasksCollection, id), {[changeField]: value});
