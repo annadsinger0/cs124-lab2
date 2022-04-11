@@ -1,3 +1,9 @@
+### Accessibility videos
+
+[Keyboard accessibility](https://youtu.be/RwbL56xlsws) REPLACE
+
+[Screen reader accessibility](https://youtu.be/KMhUFF2z9io) REPLACE
+
 ## Design Decisions
 
 We decided early on that we wanted to create an app that felt less tech-y and more natural. This made us think of keywords like 'natural', 'rustic', 'soft', 'hand drawn'.
