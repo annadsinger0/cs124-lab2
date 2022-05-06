@@ -1,0 +1,129 @@
+rules_version = '2';
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    match /lists/{list} {
+      function updatedStaticFieldsMatch() {
+      		return (
+          		resource.data.owner == request.resource.data.owner &&
+          		resource.data.id == request.resource.data.id &&
+          		resource.data.created == request.resource.data.created)
+      }
+
+      function updatedEditorsMatch() {
+      // Updated editors field must match EXCEPT editors can remove *themselves*
+      // Therefore the following must hold:
+      // 		The updated editors diff is 0, or the diff is only yourself
+      		let diff = resource.data.editors.toSet().difference(
+          							request.resource.data.editors.toSet());
+          return (
+          		diff.size() == 0 ||
+              (diff.size() == 1 && request.auth.token.email in diff));
+      }
+
+      function emailVerified() {
+      		return (
+          		request.auth.token.email_verified);
+      }
+
+      function isEditorOfList() {
+      		return (
+          		request.auth.token.email in resource.data.editors);
+      }
+
+      function isOwnerOfList() {
+      		return (
+          		request.auth.token.email == resource.data.owner);
+      }
+
+      function updatedEditorsContainsOwner() {
+      		return (
+          		request.resource.data.owner in request.resource.data.editors);
+      }
+
+      function updatedEditorsHasNoDuplicates() {
+      		return (
+          		request.resource.data.editors.toSet().size() == request.resource.data.editors.size());
+      }
+
+      allow read: if
+      		isEditorOfList();
+
+      allow update: if
+      		isOwnerOfList() &&
+          // if email is not verified, you must not edit the editors list
+          (emailVerified() || request.resource.data.editors == resource.data.editors) &&
+          updatedEditorsContainsOwner() &&
+          updatedEditorsHasNoDuplicates() &&
+          updatedStaticFieldsMatch();
+
+      // Verified editors have constraints on changing editors but can update other properties
+      allow update: if
+      		isEditorOfList() &&
+          emailVerified() &&
+          updatedEditorsMatch() &&
+          updatedEditorsContainsOwner() &&
+          updatedStaticFieldsMatch();
+
+      // Unverified editors can ONLY remove themselves
+      allow update: if
+      		isEditorOfList() &&
+          // Changing name is the only thing that separates verified and unverified editors
+          request.resource.data.name == resource.data.name &&
+          updatedEditorsMatch() &&
+          updatedEditorsContainsOwner() &&
+          updatedStaticFieldsMatch();
+
+
+      allow create: if
+      		request.resource.data.owner == request.auth.token.email &&
+          updatedEditorsContainsOwner() &&
+          list == request.resource.data.id;
+
+      allow delete: if
+      		isOwnerOfList();
+
+      function isEditorOfTask() {
+      		return request.auth.token.email in get(/databases/$(database)/documents/lists/$(list)).data.editors;
+      }
+
+      function isOwnerOfTask() {
+      		return request.auth.token.email == get(/databases/$(database)/documents/lists/$(list)).data.owner;
+      }
+
+      // You can interact with tasks when one of these applies
+      function isOwnerOrVerifiedEditor() {
+      		return emailVerified() || isOwnerOfTask();
+      }
+
+      match /tasks/{task} {
+
+      		function updatedTaskStaticFieldsMatch() {
+          		return (
+          				resource.data.id == request.resource.data.id &&
+          				resource.data.created == request.resource.data.created)
+          }
+
+      		allow read: if
+          		isEditorOfTask() &&
+              isOwnerOrVerifiedEditor();
+
+          allow update: if
+          		isEditorOfTask() &&
+              isOwnerOrVerifiedEditor() &&
+              updatedTaskStaticFieldsMatch();
+
+          allow create: if
+          		isEditorOfTask() &&
+              isOwnerOrVerifiedEditor() &&
+              task == request.resource.data.id;
+
+          allow delete: if
+          		isEditorOfTask() &&
+              isOwnerOrVerifiedEditor();
+      }
+    }
+
+  }
+}
