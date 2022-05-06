@@ -39,13 +39,13 @@ function DeleteTasks(props) {
                 <button className="delete-button" onClick={
                     () => props.selectedTaskIDs.length > 0 && setDeleteModalState("selected")
                 } disabled={deleteModalState !== "none"}>
-                    Delete Selected ({props.selectedTaskIDs.length})
+                    delete selected ({props.selectedTaskIDs.length})
                 </button>
                 <br/>
                 <button className="delete-button" onClick={
                     () => completedTaskCount > 0 && setDeleteModalState("completed")
                 } disabled={deleteModalState !== "none"}>
-                    Delete Completed ({completedTaskCount})
+                    delete completed ({completedTaskCount})
                 </button>
             </div>
 

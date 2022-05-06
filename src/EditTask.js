@@ -6,13 +6,12 @@ import PriorityButton from "./PriorityButton";
 
 function EditTask(props) {
 
-    const [taskName, setTaskName] = useState("");
+    const [taskName, setTaskName] = useState(props.task.name);
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     function handleRename(e) {
         props.onChangeField(props.task.id, "name", taskName)
-        setTaskName("");
     }
 
     function handleKeyPress(e) {
@@ -34,7 +33,7 @@ function EditTask(props) {
             </div>
             <div id="button-group">
                 <div id="priority">
-                    <p id="priority-title">Priority:</p>
+                    <p id="priority-title">priority:</p>
                     <div id="priority-selector">
                         {[0,1,2,3].map((level) =>
                             <PriorityButton priorityLevel={level} onChangePriority={() => handleChangePriority(level)}
@@ -44,15 +43,14 @@ function EditTask(props) {
                     </div>
                 </div>
 
-                {/*TODO - disallow empty rename*/}
                 <div id={"rename"}>
-                <input type="text" id="rename-input" placeholder="Rename Task" value={taskName}
+                <input type="text" id="rename-input" placeholder="rename task" value={taskName}
                        onChange={e => setTaskName(e.target.value)} onKeyPress={handleKeyPress}/>
-                <input type="button" value="Rename" id="rename-button"
+                <input type="button" value="rename" id="rename-button"
                        disabled={taskName === ""} onClick={handleRename} />
                 </div>
                 <button className="delete-button" onClick={() => {setShowDeleteModal(true)}}>
-                    Delete Task
+                    delete task
                 </button>
             </div>
 
