@@ -3,8 +3,11 @@ import ToDoListView from "./ToDoListView";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import {useState} from "react";
+import React, {useState} from "react";
 import AllListsView from "./AllListsView";
+import {getAuth, signOut} from "firebase/auth";
+import {useAuthState} from "react-firebase-hooks/auth";
+import SignIn from "./SignIn";
 
 
 
@@ -20,7 +23,11 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-function App(props) {
+const auth = getAuth();
+
+function App() {
+
+    const [user, , ] = useAuthState(auth);
 
     const [listId, setListId] = useState("");
 
@@ -32,6 +39,10 @@ function App(props) {
         setListId(id);
     }
 
+    function handleSignOut() {
+        signOut(auth);
+    }
+
     // TODO - when no tasks it looks weird
 
     // TODO - clean up firebase
@@ -40,13 +51,21 @@ function App(props) {
 
     return (
         <div id={"container"}>
-            {listId !== "" &&
-                <ToDoListView db={db} id={listId} onBackToAllListsView={handleBackToAllListsView}/>
+            {user === null ? <SignIn auth={auth}/> :
+                <>
+                    <div>
+                        <button className={"button"} id={"sign-out-button"} onClick={handleSignOut}>sign out</button>
+                        <p>(logged in as: {auth.currentUser.email})</p>
+                    </div>
+                    {listId !== "" &&
+                        <ToDoListView db={db} id={listId} onBackToAllListsView={handleBackToAllListsView} onSignOut={handleSignOut} auth={auth} />
+                    }
+                    {listId === "" &&
+                        <AllListsView db={db} onChangeListId={handleChangeListId} onSignOut={handleSignOut} auth={auth} />
+                    }
+                </>
             }
-            {listId === "" &&
-                <AllListsView db={db} onChangeListId={handleChangeListId} />
 
-            }
         </div>
     );
 }

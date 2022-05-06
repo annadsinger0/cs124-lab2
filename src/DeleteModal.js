@@ -4,9 +4,9 @@ function DeleteModal(props) {
 
     return (
         <div className={"backdrop"}>
-            <div className={"modal"}>
+            <div className={"modal"} id={"delete-modal"}>
                 <div className={"modal-text"}>
-                Are you sure you would like to delete
+                are you sure you would like to delete
                     {props.listMode ? ` list ${props.listName}` : (
                         props.mode === "edit" ? " this item?":
                                 ` ${props.itemCount} ${props.itemType} items?`
@@ -15,8 +15,8 @@ function DeleteModal(props) {
                 </div>
                 <br/>
                 <div className={"modal-buttons"}>
-                <button id={"cancel"} onClick={props.onCancel} autoFocus={true}>Cancel</button>
-                <button id={"confirm"} onClick={props.onDelete}>Delete</button>
+                <button id={"cancel"} onClick={props.onCancel} autoFocus={true}>cancel</button>
+                <button id={"confirm"} onClick={props.onDelete}>delete</button>
                 </div>
             </div>
         </div>

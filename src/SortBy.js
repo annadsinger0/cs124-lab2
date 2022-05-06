@@ -8,14 +8,14 @@ function SortBy(props) {
 
     return (
         <div id={"sort-by"}>
-            <label htmlFor="sort">Sort by:</label>
+            <label htmlFor="sort">sort by:</label>
             <select name="sort" id="sort" onChange={handleChangeSort}>
-                <option value="SortByCreated">Created</option>
-                <option value="SortByName">Alphabetical</option>
+                <option value="SortByCreated">created</option>
+                <option value="SortByName">alphabetical</option>
                 {props.itemType === "task" &&
                     <>
-                    <option value="SortByCompleted">Completed</option>
-                    <option value="SortByPriority">Priority</option>
+                    <option value="SortByCompleted">completed</option>
+                    <option value="SortByPriority">priority</option>
                     </>
                 }
             </select>

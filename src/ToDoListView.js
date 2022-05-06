@@ -5,14 +5,19 @@ import AddItem from "./AddItem";
 import React, {useEffect, useState} from "react";
 import DeleteTasks from "./DeleteTasks";
 import EditTask from "./EditTask";
+import ShareModal from "./ShareModal";
 
-import { query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import {query, orderBy, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import {useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
+import LeaveListModal from "./LeaveListModal";
 
 function ToDoListView(props) {
     const [showCompleted, setShowCompleted] = useState(true);
     const [selectedTaskIDs, setSelectedTaskIDs] = useState([]);
+    const [shareModalState, setShareModalState] = useState(false);
+    const [leaveListModalState, setLeaveListModalState] = useState(false);
+
     // modes: home, delete, edit
     const [mode, setMode] = useState("home");
 
@@ -21,6 +26,7 @@ function ToDoListView(props) {
     const listDoc = doc(props.db, "lists/"+props.id);
 
     const [list, listLoading, listError] = useDocumentData(listDoc);
+    const isOwner = list && props.auth.currentUser.email === list.owner;
 
     const tasksCollection = collection(props.db, "lists/"+props.id+"/tasks");
 
@@ -62,7 +68,8 @@ function ToDoListView(props) {
 
     function handleAddTask(name) {
         const id = generateUniqueID();
-        setDoc(doc(tasksCollection, id), {name: name, completed: false, id: id, priority: 0, created: serverTimestamp()});
+        setDoc(doc(tasksCollection, id), {name: name, completed: false, id: id, priority: 0,
+            created: serverTimestamp()});
     }
 
     function handleToggleShowCompleted() {
@@ -128,10 +135,18 @@ function ToDoListView(props) {
         setSelectedTaskIDs([]);
     }
 
+    function handleShowEditors() {
+        setShareModalState(true);
+    }
+
+    function handleLeaveList() {
+        updateDoc(listDoc, {editors: list.editors.filter((e) => e !== props.auth.currentUser.email)}).then(handleBack);
+    }
+
     return (
         <>
             <div id={"back-button-and-title-wrapper"}>
-                <button onClick={handleBack} className={"button"} id={"home-button"}> Back</button>
+                <button onClick={handleBack} className={"button"} id={"home-button"}>back</button>
                 <input type={"text"} onChange={e => setTitle(e.target.value)}
                        value={listLoading ? "loading" : title} ref={titleInput}
                        className={"title"} id={"list-title"} onBlur={() => handleChangeListName(title)}/>
@@ -139,8 +154,9 @@ function ToDoListView(props) {
 
             {mode !== 'edit' &&
                 <Tools showCompleted={showCompleted} onToggleShowCompleted={handleToggleShowCompleted} mode={mode}
-                onChangeMode={handleChangeMode} onBack={handleBack} onChangeSort={handleSetSortBy}
-                itemType={"task"} onRenameList={handleRenameList}/>
+                       onChangeMode={handleChangeMode} onBack={handleBack} onChangeSort={handleSetSortBy}
+                       itemType={"task"} onRenameList={handleRenameList} onShowEditors={handleShowEditors}
+                       onLeaveList={() => setLeaveListModalState(true)} isOwner={isOwner} />
             }
 
             {tasksLoading && <h1>loading</h1>}
@@ -158,7 +174,7 @@ function ToDoListView(props) {
             }
 
             {mode === 'home' &&
-                <AddItem onAddTask={handleAddTask} placeholder={"Add task"}/>
+                <AddItem onAddTask={handleAddTask} placeholder={"add task"}/>
             }
 
             {mode === 'delete' &&
@@ -179,7 +195,18 @@ function ToDoListView(props) {
                 </>
             }
 
+            {shareModalState &&
+                <ShareModal owner={list.owner} editors={list.editors} user={props.auth.currentUser}
+                            listDoc={listDoc} emailVerified={props.auth.currentUser.emailVerified}
+                            onCancel={() => setShareModalState(false)} isOwner={isOwner} />
+            }
 
+            {leaveListModalState &&
+                <LeaveListModal
+                    onCancel={() => setLeaveListModalState(false)}
+                    onLeaveList={handleLeaveList}
+                />
+            }
         </>
     );
 }
